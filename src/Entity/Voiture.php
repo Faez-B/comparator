@@ -21,7 +21,7 @@ class Voiture
 
     #[ORM\ManyToOne(inversedBy: 'voitures')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?marque $marque = null;
+    private ?Marque $marque = null;
 
     public function getId(): ?int
     {
@@ -52,12 +52,12 @@ class Voiture
         return $this;
     }
 
-    public function getMarque(): ?marque
+    public function getMarque(): ?Marque
     {
         return $this->marque;
     }
 
-    public function setMarque(?marque $marque): self
+    public function setMarque(?Marque $marque): self
     {
         $this->marque = $marque;
 
