@@ -5,6 +5,7 @@ namespace App\Controller;
 use DateTime;
 use DateTimeZone;
 use App\Entity\Marque;
+use App\Entity\Energie;
 use App\Entity\Voiture;
 use App\Form\VoitureType;
 use App\Repository\VoitureRepository;
@@ -33,6 +34,7 @@ class VoitureController extends AbstractController
         $em = $this->getDoctrine()->getManager();
 
         $marques = $em->getRepository(Marque::class)->findAllAsc();
+        $energies = $em->getRepository(Energie::class)->findAll();
 
         if ($form->isSubmitted() && $form->isValid()) {
             $voitureRepository->add($voiture, false);
@@ -40,6 +42,11 @@ class VoitureController extends AbstractController
             if ($_POST["marque"]) {
                 $marque = $em->getRepository(Marque::class)->find($_POST["marque"]);
                 $voiture->setMarque($marque);
+            }
+
+            if ($_POST['energie']) {
+                $energie = $em->getRepository(Energie::class)->find($_POST['energie']);
+                $voiture->setEnergie($energie);
             }
 
             $em->persist($voiture);
@@ -51,6 +58,7 @@ class VoitureController extends AbstractController
         return $this->renderForm('voiture/new.html.twig', [
             'voiture' => $voiture,
             'marques' => $marques,
+            'energies' => $energies,
             'form' => $form,
         ]);
     }
@@ -71,6 +79,7 @@ class VoitureController extends AbstractController
         $em = $this->getDoctrine()->getManager();
 
         $marques = $em->getRepository(Marque::class)->findAllAsc();
+        $energies = $em->getRepository(Energie::class)->findAll();
 
         if ($form->isSubmitted() && $form->isValid()) {
             $voitureRepository->add($voiture, false);
@@ -78,6 +87,11 @@ class VoitureController extends AbstractController
             if ($_POST["marque"]) {
                 $marque = $em->getRepository(Marque::class)->find($_POST["marque"]);
                 $voiture->setMarque($marque);
+            }
+
+            if ($_POST['energie']) {
+                $energie = $em->getRepository(Energie::class)->find($_POST['energie']);
+                $voiture->setEnergie($energie);
             }
 
             $em->persist($voiture);
@@ -91,6 +105,7 @@ class VoitureController extends AbstractController
         return $this->renderForm('voiture/edit.html.twig', [
             'voiture' => $voiture,
             'marques' => $marques,
+            'energies' => $energies,
             'form' => $form,
         ]);
     }

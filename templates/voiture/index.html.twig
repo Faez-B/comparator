@@ -10,6 +10,7 @@
             <tr>
                 <th>Nom</th>
                 <th>Prix (€)</th>
+                <th>Énergie</th>
                 <th>Marque</th>
                 <th>actions</th>
             </tr>
@@ -19,6 +20,11 @@
             <tr>
                 <td>{{ voiture.nom }}</td>
                 <td>{{ voiture.prix }}</td>
+                {% if voiture.energie %}
+                    <td>{{ voiture.energie.nom }}</td>
+                {% else %}
+                    <td class="italic">Non spécifié</td>
+                {% endif %}
                 <td>{{ voiture.marque.nom }}</td>
                 <td>
                     <a href="{{ path('app_voiture_show', {'id': voiture.id}) }}">show</a>

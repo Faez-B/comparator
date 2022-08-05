@@ -8,5 +8,12 @@
         {% endfor %}
     </select>
 
+    <select name="energie" id="energie">
+        <option value="">Choisissez une énergie</option>
+        {% for energie in energies %}
+            <option value="{{ energie.id }}">{{ energie.nom }}</option>
+        {% endfor %}
+    </select>
+
     <button class="btn">{{ button_label|default('Créer') }}</button>
 {{ form_end(form) }}
