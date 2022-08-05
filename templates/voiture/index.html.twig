@@ -19,6 +19,10 @@
         {% endfor %}
     </select>
 
+    <label for="prixAjax">Prix maximum (entre 0 et {{ prixMax }}) : </label>
+    <input type="range" id="prixAjax" name="prixAjax" min="0" max="{{ prixMax }}" step="500"> 
+    <span id="rangeValue">0</span>
+
     <table class="table" width="100%" id="voiture_index">
         <thead align="center">
             <tr>

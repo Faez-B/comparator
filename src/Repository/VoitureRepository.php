@@ -83,6 +83,19 @@ class VoitureRepository extends ServiceEntityRepository
         return $query->getQuery()->getResult();
     }
 
+    /**
+     * It returns the maximum price of all the vehicles in the database
+     */
+    public function getMaxPrix() {
+        $query = $this->createQueryBuilder('v')
+            ->select('MAX(v.prix)')
+            ->getQuery()
+            ->getSingleScalarResult()
+        ;
+
+        return $query;
+    }
+
 //    /**
 //     * @return Voiture[] Returns an array of Voiture objects
 //     */

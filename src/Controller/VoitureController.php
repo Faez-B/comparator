@@ -24,10 +24,14 @@ class VoitureController extends AbstractController
         $marques = $em->getRepository(Marque::class)->findAllAsc();
         $energies = $em->getRepository(Energie::class)->findAll();
 
+        // $prixMax = $em->getRepository(Voiture::class)->getMaxPrix();
+        $prixMax = $voitureRepository->getMaxPrix();
+
         return $this->render('voiture/index.html.twig', [
             'voitures' => $voitureRepository->findAll(),
             'marques' => $marques,
             'energies' => $energies,
+            'prixMax' => $prixMax,
         ]);
     }
 

@@ -2,6 +2,10 @@ input[type=text],input[type=email],input[type=password],textarea{
     border: solid 1px lightgray;
 }
 
+input[type=range]{
+    vertical-align: middle;
+}
+
 .text-center {
     text-align: center;
 }

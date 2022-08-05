@@ -1,6 +1,7 @@
 $(document).ready(function() {
     $("#energieAjax").val("");
     $("#marqueAjax").val("");
+    $("#prixAjax").val("");
 
     let energie = null;
     let marque = null;
@@ -38,5 +39,11 @@ $(document).ready(function() {
                 $("#voiture_index_body").html(data);
             }
         });
+    })
+
+    // $(document).on('input', "#prixAjax", function() {
+    $(document).on('change', "#prixAjax", function() {
+        $("#rangeValue").html($(this).val());
+        prixMax = $(this).val();
     })
 })
