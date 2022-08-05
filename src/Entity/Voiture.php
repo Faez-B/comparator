@@ -27,6 +27,9 @@ class Voiture
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $lastUpdate = null;
 
+    #[ORM\ManyToOne(inversedBy: 'voitures')]
+    private ?Energie $energie = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -76,6 +79,18 @@ class Voiture
     public function setLastUpdate(\DateTimeInterface $lastUpdate): self
     {
         $this->lastUpdate = $lastUpdate;
+
+        return $this;
+    }
+
+    public function getEnergie(): ?Energie
+    {
+        return $this->energie;
+    }
+
+    public function setEnergie(?Energie $energie): self
+    {
+        $this->energie = $energie;
 
         return $this;
     }
