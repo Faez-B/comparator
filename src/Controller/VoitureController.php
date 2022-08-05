@@ -81,6 +81,10 @@ class VoitureController extends AbstractController
                 $voiture->setEnergie($energie);
             }
 
+            if (isset($_POST['etat'])) {
+                $voiture->setEtat($_POST['etat']);
+            }
+
             $em->persist($voiture);
             $em->flush();
 
@@ -124,6 +128,10 @@ class VoitureController extends AbstractController
             if ($_POST['energie']) {
                 $energie = $em->getRepository(Energie::class)->find($_POST['energie']);
                 $voiture->setEnergie($energie);
+            }
+
+            if (isset($_POST['etat'])) {
+                $voiture->setEtat($_POST['etat']);
             }
 
             $em->persist($voiture);

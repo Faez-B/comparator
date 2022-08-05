@@ -8,6 +8,7 @@
             <td class="italic text-gray-200">Non spécifié</td>
         {% endif %}
         <td>{{ voiture.marque.nom }}</td>
+        <td>{{ voiture.etat|capitalize }}</td>
         <td class="italic text-gray-200">{{ voiture.lastUpdate|date("d/m/Y") }}</td>
         <td>
             <a href="{{ path('app_voiture_show', {'id': voiture.id}) }}">show</a>

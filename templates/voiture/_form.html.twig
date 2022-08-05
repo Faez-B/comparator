@@ -15,5 +15,13 @@
         {% endfor %}
     </select>
 
+    <div>
+        <label>Neuf</label>
+        <input type="radio" name="etat" id="neuf" value="neuf">
+        
+        <label>Occasion</label>
+        <input type="radio" name="etat" id="occasion" value="occasion">
+    </div>
+
     <button class="btn">{{ button_label|default('Créer') }}</button>
 {{ form_end(form) }}
