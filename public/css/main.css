@@ -1,3 +1,13 @@
+input[type=text], input[type=email], input[type=password], textarea {
+  border: solid 1px lightgray;
+}
 
+.text-center {
+  text-align: center;
+}
+
+.italic {
+  font-style: italic;
+}
 
 /*# sourceMappingURL=main.css.map */
