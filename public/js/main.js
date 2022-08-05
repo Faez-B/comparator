@@ -45,5 +45,18 @@ $(document).ready(function() {
     $(document).on('change', "#prixAjax", function() {
         $("#rangeValue").html($(this).val());
         prixMax = $(this).val();
+
+        $.ajax({
+            url: "/voiture/search",
+            type: "POST",
+            data: {
+                energie: energie,
+                marque: marque,
+                prixMax: prixMax
+            },
+            success: function(data) {
+                $("#voiture_index_body").html(data);
+            }
+        });
     })
 })

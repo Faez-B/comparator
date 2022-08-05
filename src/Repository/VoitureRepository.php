@@ -75,7 +75,7 @@ class VoitureRepository extends ServiceEntityRepository
         if ($prixMax) {
 
             $query
-                ->andWhere('v.prix > :prixMax')
+                ->andWhere('v.prix <= :prixMax')
                 ->setParameter('prixMax', $prixMax);
                 
         }
