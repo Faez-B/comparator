@@ -1,0 +1,21 @@
+{% for voiture in voitures %}
+    <tr>
+        <td>{{ voiture.nom }}</td>
+        <td>{{ voiture.prix }}</td>
+        {% if voiture.energie %}
+            <td>{{ voiture.energie.nom }}</td>
+        {% else %}
+            <td class="italic text-gray-200">Non spécifié</td>
+        {% endif %}
+        <td>{{ voiture.marque.nom }}</td>
+        <td class="italic text-gray-200">{{ voiture.lastUpdate|date("d/m/Y") }}</td>
+        <td>
+            <a href="{{ path('app_voiture_show', {'id': voiture.id}) }}">show</a>
+            <a href="{{ path('app_voiture_edit', {'id': voiture.id}) }}">edit</a>
+        </td>
+    </tr>
+{% else %}
+    <tr>
+        <td colspan="4">Aucun résultat</td>
+    </tr>
+{% endfor %}

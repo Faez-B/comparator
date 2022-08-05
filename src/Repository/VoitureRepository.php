@@ -3,6 +3,8 @@
 namespace App\Repository;
 
 use DateTime;
+use App\Entity\Marque;
+use App\Entity\Energie;
 use App\Entity\Voiture;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -39,6 +41,46 @@ class VoitureRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    /**
+     * It returns all the cars that match the given criteria
+     * 
+     * @param Marque marque the brand of the car
+     * @param Energie energie The energy type of the car (gasoline, diesel, electric, etc.)
+     * @param float prixMax The maximum price of the car
+     * 
+     * @return An array of objects
+     */
+    public function search(Marque $marque = null, Energie $energie = null, float $prixMax = null) {
+        $query = $this->createQueryBuilder('v');
+        $query->select('v');
+
+        if ($marque !== null) {
+
+            $query
+                ->andWhere('v.marque = :marque')
+                ->setParameter('marque', $marque);
+
+        }
+
+        if ($energie !== null) {
+
+            $query
+                ->andWhere('v.energie = :energie')
+                ->setParameter('energie', $energie);
+                
+        }
+
+        if ($prixMax) {
+
+            $query
+                ->andWhere('v.prix > :prixMax')
+                ->setParameter('prixMax', $prixMax);
+                
+        }
+
+        return $query->getQuery()->getResult();
     }
 
 //    /**

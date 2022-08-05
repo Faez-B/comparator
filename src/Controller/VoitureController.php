@@ -20,8 +20,36 @@ class VoitureController extends AbstractController
     #[Route('/', name: 'app_voiture_index', methods: ['GET'])]
     public function index(VoitureRepository $voitureRepository): Response
     {
+        $em = $this->getDoctrine()->getManager();
+        $marques = $em->getRepository(Marque::class)->findAllAsc();
+        $energies = $em->getRepository(Energie::class)->findAll();
+
         return $this->render('voiture/index.html.twig', [
             'voitures' => $voitureRepository->findAll(),
+            'marques' => $marques,
+            'energies' => $energies,
+        ]);
+    }
+
+    #[Route('/search', name: 'app_voiture_search', methods: ["POST"])]
+    public function search(Request $request): Response
+    {
+        $energie = null; $marque = null; $prixMax = null;
+
+        $em = $this->getDoctrine()->getManager();
+
+        if (isset($_POST["energie"]) && $_POST["energie"])  
+            $energie = $em->getRepository(Energie::class)->find((int)$_POST["energie"]);
+
+        if (isset($_POST["marque"]) && $_POST["marque"])    
+            $marque = $em->getRepository(Marque::class)->find((int)$_POST["marque"]);
+
+        if (isset($_POST["prixMax"]) && $_POST["prixMax"])  $prixMax = $_POST["prixMax"];
+
+        // dd($energie, $prixMax, $marque);
+
+        return $this->render('voiture/_index_body.html.twig', [
+            'voitures' => $em->getRepository(Voiture::class)->search($marque, $energie, $prixMax),
         ]);
     }
 
