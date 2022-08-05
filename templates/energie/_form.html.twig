@@ -1,4 +1,5 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+    {{ form_widget(form.nom, { "attr" : { "autofocus" : true, "autocomplete" : true, "placeholder" : "Nom de l'énergie" } }) }}
+
+    <button class="btn">{{ button_label|default('Créer') }}</button>
 {{ form_end(form) }}
