@@ -2,9 +2,10 @@
 
 namespace App\Repository;
 
+use DateTime;
 use App\Entity\Voiture;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @extends ServiceEntityRepository<Voiture>
@@ -23,6 +24,7 @@ class VoitureRepository extends ServiceEntityRepository
 
     public function add(Voiture $entity, bool $flush = false): void
     {
+        $entity->setLastUpdate(new DateTime());
         $this->getEntityManager()->persist($entity);
 
         if ($flush) {

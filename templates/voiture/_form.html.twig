@@ -1,4 +1,12 @@
 {{ form_start(form) }}
     {{ form_widget(form.nom, { "attr" : { "autofocus" : true, "autocomplete" : true, "placeholder" : "Nom de la voiture" } }) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+
+    <select name="marque" id="marque">
+        <option value="">Choisissez une marque</option>
+        {% for marque in marques %}
+            <option value="{{ marque.id }}">{{ marque.nom }}</option>
+        {% endfor %}
+    </select>
+
+    <button class="btn">{{ button_label|default('Créer') }}</button>
 {{ form_end(form) }}

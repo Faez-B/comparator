@@ -2,13 +2,16 @@
 
 namespace App\Controller;
 
+use DateTime;
+use DateTimeZone;
+use App\Entity\Marque;
 use App\Entity\Voiture;
 use App\Form\VoitureType;
 use App\Repository\VoitureRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[Route('/voiture')]
 class VoitureController extends AbstractController
@@ -27,15 +30,27 @@ class VoitureController extends AbstractController
         $voiture = new Voiture();
         $form = $this->createForm(VoitureType::class, $voiture);
         $form->handleRequest($request);
+        $em = $this->getDoctrine()->getManager();
+
+        $marques = $em->getRepository(Marque::class)->findAllAsc();
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $voitureRepository->add($voiture, true);
+            $voitureRepository->add($voiture, false);
+
+            if ($_POST["marque"]) {
+                $marque = $em->getRepository(Marque::class)->find($_POST["marque"]);
+                $voiture->setMarque($marque);
+            }
+
+            $em->persist($voiture);
+            $em->flush();
 
             return $this->redirectToRoute('app_voiture_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('voiture/new.html.twig', [
             'voiture' => $voiture,
+            'marques' => $marques,
             'form' => $form,
         ]);
     }
@@ -53,15 +68,29 @@ class VoitureController extends AbstractController
     {
         $form = $this->createForm(VoitureType::class, $voiture);
         $form->handleRequest($request);
+        $em = $this->getDoctrine()->getManager();
+
+        $marques = $em->getRepository(Marque::class)->findAllAsc();
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $voitureRepository->add($voiture, true);
+            $voitureRepository->add($voiture, false);
+            
+            if ($_POST["marque"]) {
+                $marque = $em->getRepository(Marque::class)->find($_POST["marque"]);
+                $voiture->setMarque($marque);
+            }
+
+            $em->persist($voiture);
+            $em->flush();
+
+            dd($voiture);
 
             return $this->redirectToRoute('app_voiture_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('voiture/edit.html.twig', [
             'voiture' => $voiture,
+            'marques' => $marques,
             'form' => $form,
         ]);
     }
