@@ -39,6 +39,9 @@ class MarqueRepository extends ServiceEntityRepository
         }
     }
 
+    public function findAllAsc() {
+        return $this->findBy(array(), array('nom' => 'ASC'));
+    }
 //    /**
 //     * @return Marque[] Returns an array of Marque objects
 //     */

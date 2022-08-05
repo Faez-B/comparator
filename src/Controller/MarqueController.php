@@ -17,7 +17,7 @@ class MarqueController extends AbstractController
     public function index(MarqueRepository $marqueRepository): Response
     {
         return $this->render('marque/index.html.twig', [
-            'marques' => $marqueRepository->findAll(),
+            'marques' => $marqueRepository->findAllAsc(),
         ]);
     }
 
