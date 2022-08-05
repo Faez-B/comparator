@@ -1,4 +1,4 @@
 ignition:
     application_path: ''
     dark_mode: false
-    should_display_exceptions: '%kernel.debug%'
+    should_display_exception: '%kernel.debug%'
