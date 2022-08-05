@@ -30,6 +30,9 @@ class Voiture
     #[ORM\ManyToOne(inversedBy: 'voitures')]
     private ?Energie $energie = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $etat = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -91,6 +94,18 @@ class Voiture
     public function setEnergie(?Energie $energie): self
     {
         $this->energie = $energie;
+
+        return $this;
+    }
+
+    public function getEtat(): ?string
+    {
+        return $this->etat;
+    }
+
+    public function setEtat(?string $etat): self
+    {
+        $this->etat = $etat;
 
         return $this;
     }
