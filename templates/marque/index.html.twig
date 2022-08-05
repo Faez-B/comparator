@@ -8,7 +8,6 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
                 <th>Nom</th>
                 <th>actions</th>
             </tr>
@@ -16,7 +15,6 @@
         <tbody>
         {% for marque in marques %}
             <tr>
-                <td>{{ marque.id }}</td>
                 <td>{{ marque.nom }}</td>
                 <td>
                     <a href="{{ path('app_marque_show', {'id': marque.id}) }}">show</a>
@@ -25,11 +23,11 @@
             </tr>
         {% else %}
             <tr>
-                <td colspan="3">no records found</td>
+                <td colspan="3">Aucun résultat</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('app_marque_new') }}">Create new</a>
+    <a href="{{ path('app_marque_new') }}">Créer</a>
 {% endblock %}

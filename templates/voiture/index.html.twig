@@ -8,7 +8,6 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
                 <th>Nom</th>
                 <th>Prix</th>
                 <th>actions</th>
@@ -17,7 +16,6 @@
         <tbody>
         {% for voiture in voitures %}
             <tr>
-                <td>{{ voiture.id }}</td>
                 <td>{{ voiture.nom }}</td>
                 <td>{{ voiture.prix }}</td>
                 <td>
@@ -27,11 +25,11 @@
             </tr>
         {% else %}
             <tr>
-                <td colspan="4">no records found</td>
+                <td colspan="4">Aucun résultat</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('app_voiture_new') }}">Create new</a>
+    <a href="{{ path('app_voiture_new') }}">Créer</a>
 {% endblock %}
