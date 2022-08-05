@@ -9,7 +9,7 @@
         <link href="css/main.css" rel="stylesheet">
         <link href="css/responsive.css" rel="stylesheet">
 
-        <script src="js/main.ts"></script>
+        <script src="js/main.js"></script>
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
         {% endblock %}
@@ -18,7 +18,7 @@
             {{ encore_entry_script_tags('app') }}
         {% endblock %}
     </head>
-    <body>
+    <body class="container mx-auto px-4">
         {% block body %}{% endblock %}
     </body>
 </html>
