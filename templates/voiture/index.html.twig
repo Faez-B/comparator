@@ -5,23 +5,29 @@
 {% block body %}
     <h1 class="text-center">Voiture index</h1>
 
-    <select name="energieAjax" id="energieAjax">
-        <option value="">Choisissez une énergie</option>
-        {% for energie in energies %}
-            <option value="{{ energie.id }}">{{ energie.nom }}</option>
-        {% endfor %}
-    </select>
+    <div>
+        <select name="energieAjax" id="energieAjax">
+            <option value="">Choisissez une énergie</option>
+            {% for energie in energies %}
+                <option value="{{ energie.id }}">{{ energie.nom }}</option>
+            {% endfor %}
+        </select>
+    </div>
 
-    <select name="marqueAjax" id="marqueAjax">
-        <option value="">Choisissez une marque</option>
-        {% for marque in marques %}
-            <option value="{{ marque.id }}">{{ marque.nom }}</option>
-        {% endfor %}
-    </select>
+    <div>
+        <select name="marqueAjax" id="marqueAjax">
+            <option value="">Choisissez une marque</option>
+            {% for marque in marques %}
+                <option value="{{ marque.id }}">{{ marque.nom }}</option>
+            {% endfor %}
+        </select>
+    </div>
 
-    <label for="prixAjax">Prix maximum (entre 0€ et {{ prixMax }}€) : </label>
-    <input type="range" id="prixAjax" name="prixAjax" min="0" max="{{ prixMax }}" step="500"> 
-    <span id="rangeValue">0</span>
+    <div>
+        <label for="prixAjax">Prix maximum (entre 0€ et {{ prixMax }}€) : </label>
+        <input type="range" id="prixAjax" name="prixAjax" min="0" max="{{ prixMax }}" step="500" value="0"> 
+        <span id="rangeValue">0</span>
+    </div>
 
     <table class="table" width="100%" id="voiture_index">
         <thead align="center">
