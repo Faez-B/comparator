@@ -13,9 +13,9 @@ $(document).ready(function() {
     let etat = null;
     let conso = null;
 
-    $(document).on("change", "#energieAjax",  function() {
-        energie = $(this).val();
+    let sortType = null;
 
+    function filtrer() {
         $.ajax({
             url: "/voiture/search",
             type: "POST",
@@ -28,23 +28,18 @@ $(document).ready(function() {
                 $("#voiture_index_body").html(data);
             }
         });
+    }
+
+    $(document).on("change", "#energieAjax",  function() {
+        energie = $(this).val();
+
+        filtrer()
     })
 
     $(document).on("change", "#marqueAjax",  function() {
         marque = $(this).val();
 
-        $.ajax({
-            url: "/voiture/search",
-            type: "POST",
-            data: {
-                energie: energie,
-                marque: marque,
-                prixMax: prixMax
-            },
-            success: function(data) {
-                $("#voiture_index_body").html(data);
-            }
-        });
+        filtrer()
     })
 
     // $(document).on('input', "#prixAjax", function() {
@@ -52,18 +47,7 @@ $(document).ready(function() {
         $("#rangeValue").html($(this).val());
         prixMax = $(this).val();
 
-        $.ajax({
-            url: "/voiture/search",
-            type: "POST",
-            data: {
-                energie: energie,
-                marque: marque,
-                prixMax: prixMax
-            },
-            success: function(data) {
-                $("#voiture_index_body").html(data);
-            }
-        });
+        filtrer()
     })
 
 
