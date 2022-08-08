@@ -33,6 +33,9 @@ class Voiture
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $etat = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?float $consommation = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -106,6 +109,18 @@ class Voiture
     public function setEtat(?string $etat): self
     {
         $this->etat = $etat;
+
+        return $this;
+    }
+
+    public function getConsommation(): ?float
+    {
+        return $this->consommation;
+    }
+
+    public function setConsommation(?float $consommation): self
+    {
+        $this->consommation = $consommation;
 
         return $this;
     }
