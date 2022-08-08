@@ -23,6 +23,7 @@ class VoitureType extends AbstractType
             //         return $marque ? ['class' => 'marque_'.strtolower($marque->getName())] : [];
             //     },
             // ])
+            ->add('consommation')
         ;
     }
 

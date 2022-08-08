@@ -9,6 +9,18 @@
         {% endif %}
         <td>{{ voiture.marque.nom }}</td>
         <td>{{ voiture.etat|capitalize }}</td>
+        <td>
+            {% if voiture.consommation %}
+            
+                {{ voiture.consommation }} 
+
+                {% if voiture.energie.id == 4 %}
+                    kWh
+                {% else %}
+                    L/100 km
+                {% endif %}
+            {% endif %}
+        </td>
         <td class="italic text-gray-200">{{ voiture.lastUpdate|date("d/m/Y") }}</td>
         <td>
             <a href="{{ path('app_voiture_show', {'id': voiture.id}) }}">show</a>

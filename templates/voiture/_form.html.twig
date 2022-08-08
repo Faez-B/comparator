@@ -1,19 +1,25 @@
 {{ form_start(form) }}
-    {{ form_widget(form.nom, { "attr" : { "autofocus" : true, "autocomplete" : true, "placeholder" : "Nom de la voiture" } }) }}
+    <div>
+        {{ form_widget(form.nom, { "attr" : { "autofocus" : true, "autocomplete" : true, "placeholder" : "Nom de la voiture" } }) }}
+    </div>
 
-    <select name="marque" id="marque">
-        <option value="">Choisissez une marque</option>
-        {% for marque in marques %}
-            <option value="{{ marque.id }}">{{ marque.nom }}</option>
-        {% endfor %}
-    </select>
+    <div>
+        <select name="marque" id="marque">
+            <option value="">Choisissez une marque</option>
+            {% for marque in marques %}
+                <option value="{{ marque.id }}">{{ marque.nom }}</option>
+            {% endfor %}
+        </select>
+    </div>
 
-    <select name="energie" id="energie">
-        <option value="">Choisissez une énergie</option>
-        {% for energie in energies %}
-            <option value="{{ energie.id }}">{{ energie.nom }}</option>
-        {% endfor %}
-    </select>
+    <div>
+        <select name="energie" id="energie">
+            <option value="">Choisissez une énergie</option>
+            {% for energie in energies %}
+                <option value="{{ energie.id }}">{{ energie.nom }}</option>
+            {% endfor %}
+        </select>
+    </div>
 
     <div>
         <label>Neuf</label>
@@ -23,5 +29,16 @@
         <input type="radio" name="etat" id="occasion" value="occasion">
     </div>
 
-    <button class="btn">{{ button_label|default('Créer') }}</button>
+    <div>
+        {{ form_widget(form.prix, { "attr" : { "autocomplete" : true, "placeholder" : "Prix" } }) }}
+    </div>
+
+    <div>
+        {{ form_widget(form.consommation, { "attr" : { "autocomplete" : true, "placeholder" : "Consommation (facultative)" } }) }}
+        <span id="conso_unite"></span>
+    </div>
+
+    <div>
+        <button class="btn">{{ button_label|default('Créer') }}</button>
+    </div>
 {{ form_end(form) }}
