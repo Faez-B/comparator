@@ -2,6 +2,8 @@ $(document).ready(function() {
     $("#energieAjax").val("");
     $("#marqueAjax").val("");
     $("#prixAjax").val("");
+    $("#trie").val("");
+    // $("#etatSelector").val("");
 
     /**
      * Filtres
@@ -66,6 +68,12 @@ $(document).ready(function() {
 
     $(document).on('change', "#trie", function() {
         sortType = $(this).val();
+
+        filtrer();
+    })
+
+    $(document).on('change', "#etatSelector", function() {
+        etat = (!etat) ? $(this).val() : null;
 
         filtrer();
     })

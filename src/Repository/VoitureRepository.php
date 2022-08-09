@@ -101,9 +101,19 @@ class VoitureRepository extends ServiceEntityRepository
                     $query->orderBy('v.prix', 'DESC');
                     break;
 
+                // case 'consoElecASC':
+                //     $query->andWhere('v.energie.id = 4')
+                //         ->orderBy('v.consommation', 'ASC');
+                //     break;
+
                 default:
                     break;
             }
+        }
+
+        if ($etat) {
+            $query->andWhere('v.etat LIKE :etat')
+                ->setParameter('etat', "%neuf%");
         }
 
         return $query->getQuery()->getResult();
