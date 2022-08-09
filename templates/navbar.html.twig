@@ -1,0 +1,29 @@
+<nav class="p-2">
+    {% if not app.user %}
+        <div class="text-right">
+            <a href="{{ path('login') }}">
+                <button class="
+                bg-lime-500 
+                text-white 
+                p-1 px-2  
+                border-2 border-lime-500 
+                hover:bg-white hover:text-lime-500
+                ">
+                Se connecter
+                </button>
+            </a>
+
+            <a href="{{ path('register') }}">
+                <button class="
+                bg-blue-500 
+                text-white 
+                p-1 px-2  
+                border-2 border-blue-500 
+                hover:bg-white hover:text-blue-500
+                ">
+                S'enregistrer
+                </button>
+            </a>
+        </div>
+    {% endif %}
+</nav>

@@ -14,4 +14,12 @@ input[type=range] {
   font-style: italic;
 }
 
+.login form {
+  max-width: 750px;
+  margin: auto;
+  padding: 20px;
+  border: solid 1px;
+  border-radius: 25px;
+}
+
 /*# sourceMappingURL=main.css.map */
