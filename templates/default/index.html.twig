@@ -1,9 +1,41 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Index{% endblock %}
+{% block title %}Choix principal{% endblock %}
 
 {% block body %}
     <div class="index">
-        <h1>Index</h1>
+        <h1 class="text-center">Que voulez-vous comparer ?</h1>
+
+        {# grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 
+        ==> ça veut dire que tant qu'on n'est pas en tablette on reste en cols-3 
+        après on passe en cols-2 tant qu'on n'est pas en mobile
+        pour finir par cols-1
+        #}
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
+            <div>
+                <a href="{{ path('voiture_index') }}">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            {# {% include "/public/images/SVG/car.svg" %} #}
+                            <i class="fa-solid fa-car"></i>
+                            <h5 class="card-title">Voitures</h5>
+                            <p class="card-text">Vous pouvez rechercher une voiture selon vos critères ou comparer 2 voitures entres elles.</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <div>
+                <a href="{{ path('voiture_index') }}">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            {# {% include "/public/images/SVG/car.svg" %} #}
+                            <i class="fa-solid fa-car"></i>
+                            <h5 class="card-title">Téléphone</h5>
+                            <p class="card-text">Vous pouvez rechercher une voiture selon vos critères ou comparer 2 voitures entres elles.</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
     </div>
 {% endblock %}

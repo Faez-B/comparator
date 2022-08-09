@@ -17,7 +17,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 #[Route('/voiture')]
 class VoitureController extends AbstractController
 {
-    #[Route('/', name: 'app_voiture_index', methods: ['GET'])]
+    #[Route('/', name: 'voiture_index', methods: ['GET'])]
     public function index(VoitureRepository $voitureRepository): Response
     {
         $em = $this->getDoctrine()->getManager();
@@ -35,7 +35,7 @@ class VoitureController extends AbstractController
         ]);
     }
 
-    #[Route('/search', name: 'app_voiture_search', methods: ["POST"])]
+    #[Route('/search', name: 'voiture_search', methods: ["POST"])]
     public function search(Request $request): Response
     {
         $energie = null; $marque = null; $prixMax = null; $etat = null; $conso = null; $sortType = null;
@@ -61,7 +61,7 @@ class VoitureController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_voiture_new', methods: ['GET', 'POST'])]
+    #[Route('/new', name: 'voiture_new', methods: ['GET', 'POST'])]
     public function new(Request $request, VoitureRepository $voitureRepository): Response
     {
         $voiture = new Voiture();
@@ -92,7 +92,7 @@ class VoitureController extends AbstractController
             $em->persist($voiture);
             $em->flush();
 
-            return $this->redirectToRoute('app_voiture_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('voiture_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('voiture/new.html.twig', [
@@ -103,7 +103,7 @@ class VoitureController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_voiture_show', methods: ['GET'])]
+    #[Route('/{id}', name: 'voiture_show', methods: ['GET'])]
     public function show(Voiture $voiture): Response
     {
         return $this->render('voiture/show.html.twig', [
@@ -111,7 +111,7 @@ class VoitureController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_voiture_edit', methods: ['GET', 'POST'])]
+    #[Route('/{id}/edit', name: 'voiture_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Voiture $voiture, VoitureRepository $voitureRepository): Response
     {
         $form = $this->createForm(VoitureType::class, $voiture);
@@ -143,7 +143,7 @@ class VoitureController extends AbstractController
 
             dd($voiture);
 
-            return $this->redirectToRoute('app_voiture_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('voiture_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('voiture/edit.html.twig', [
@@ -154,13 +154,13 @@ class VoitureController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_voiture_delete', methods: ['POST'])]
+    #[Route('/{id}', name: 'voiture_delete', methods: ['POST'])]
     public function delete(Request $request, Voiture $voiture, VoitureRepository $voitureRepository): Response
     {
         if ($this->isCsrfTokenValid('delete'.$voiture->getId(), $request->request->get('_token'))) {
             $voitureRepository->remove($voiture, true);
         }
 
-        return $this->redirectToRoute('app_voiture_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('voiture_index', [], Response::HTTP_SEE_OTHER);
     }
 }

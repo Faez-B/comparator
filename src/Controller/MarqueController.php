@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/marque')]
 class MarqueController extends AbstractController
 {
-    #[Route('/', name: 'app_marque_index', methods: ['GET'])]
+    #[Route('/', name: 'marque_index', methods: ['GET'])]
     public function index(MarqueRepository $marqueRepository): Response
     {
         return $this->render('marque/index.html.twig', [
@@ -21,7 +21,7 @@ class MarqueController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_marque_new', methods: ['GET', 'POST'])]
+    #[Route('/new', name: 'marque_new', methods: ['GET', 'POST'])]
     public function new(Request $request, MarqueRepository $marqueRepository): Response
     {
         $marque = new Marque();
@@ -31,7 +31,7 @@ class MarqueController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $marqueRepository->add($marque, true);
 
-            return $this->redirectToRoute('app_marque_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('marque_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('marque/new.html.twig', [
@@ -40,7 +40,7 @@ class MarqueController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_marque_show', methods: ['GET'])]
+    #[Route('/{id}', name: 'marque_show', methods: ['GET'])]
     public function show(Marque $marque): Response
     {
         return $this->render('marque/show.html.twig', [
@@ -48,7 +48,7 @@ class MarqueController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_marque_edit', methods: ['GET', 'POST'])]
+    #[Route('/{id}/edit', name: 'marque_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Marque $marque, MarqueRepository $marqueRepository): Response
     {
         $form = $this->createForm(MarqueType::class, $marque);
@@ -57,7 +57,7 @@ class MarqueController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $marqueRepository->add($marque, true);
 
-            return $this->redirectToRoute('app_marque_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('marque_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('marque/edit.html.twig', [
@@ -66,13 +66,13 @@ class MarqueController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_marque_delete', methods: ['POST'])]
+    #[Route('/{id}', name: 'marque_delete', methods: ['POST'])]
     public function delete(Request $request, Marque $marque, MarqueRepository $marqueRepository): Response
     {
         if ($this->isCsrfTokenValid('delete'.$marque->getId(), $request->request->get('_token'))) {
             $marqueRepository->remove($marque, true);
         }
 
-        return $this->redirectToRoute('app_marque_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('marque_index', [], Response::HTTP_SEE_OTHER);
     }
 }
