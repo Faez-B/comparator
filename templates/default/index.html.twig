@@ -11,14 +11,18 @@
         après on passe en cols-2 tant qu'on n'est pas en mobile
         pour finir par cols-1
         #}
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
+        <div class="grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-3">
             <div>
                 <a href="{{ path('voiture_index') }}">
-                    <div class="card">
+                    <div class="card h-full
+                    bg-blue-600 text-white 
+                    border border-blue-600 
+                    rounded-md 
+                    hover:text-blue-600 hover:bg-white">
                         <div class="card-body text-center">
                             {# {% include "/public/images/SVG/car.svg" %} #}
-                            <i class="fa-solid fa-car"></i>
-                            <h5 class="card-title">Voitures</h5>
+                            <i class="fa-solid fa-car text-6xl"></i>
+                            <h5 class="card-title text-2xl">Voitures</h5>
                             <p class="card-text">Vous pouvez rechercher une voiture selon vos critères ou comparer 2 voitures entres elles.</p>
                         </div>
                     </div>
@@ -26,13 +30,17 @@
             </div>
 
             <div>
-                <a href="{{ path('voiture_index') }}">
-                    <div class="card">
+                <a href="">
+                    <div class="card h-full
+                    bg-blue-600 text-white 
+                    border border-blue-600 
+                    rounded-md 
+                    hover:text-blue-600 hover:bg-white">
                         <div class="card-body text-center">
                             {# {% include "/public/images/SVG/car.svg" %} #}
-                            <i class="fa-solid fa-car"></i>
-                            <h5 class="card-title">Téléphone</h5>
-                            <p class="card-text">Vous pouvez rechercher une voiture selon vos critères ou comparer 2 voitures entres elles.</p>
+                            <i class="fa-solid fa-mobile-screen-button text-6xl"></i>
+                            <h5 class="card-title text-2xl">Téléphones</h5>
+                            <p class="card-text">Vous pouvez rechercher un téléphone selon vos critères ou comparer 2 téléphones entres eux.</p>
                         </div>
                     </div>
                 </a>
