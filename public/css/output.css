@@ -622,6 +622,10 @@ a {
   display: table;
 }
 
+.grid {
+  display: grid;
+}
+
 .hidden {
   display: none;
 }
@@ -629,6 +633,10 @@ a {
 .columns-2 {
   -moz-columns: 2;
        columns: 2;
+}
+
+.grid-cols-2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 .rounded-md {
