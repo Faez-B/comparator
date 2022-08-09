@@ -52,7 +52,14 @@ class VoitureRepository extends ServiceEntityRepository
      * 
      * @return An array of objects
      */
-    public function search(Marque $marque = null, Energie $energie = null, float $prixMax = null) {
+    public function search(
+        Marque $marque = null, 
+        Energie $energie = null, 
+        float $prixMax = null,
+        String $etat = null,
+        float $conso = null,
+        String $sortType = null
+    ) {
         $query = $this->createQueryBuilder('v');
         $query->select('v');
 
@@ -78,6 +85,25 @@ class VoitureRepository extends ServiceEntityRepository
                 ->andWhere('v.prix <= :prixMax')
                 ->setParameter('prixMax', $prixMax);
                 
+        }
+
+        if ($sortType) {
+            switch ($sortType) {
+                case 'alphabet':
+                    $query->orderBy('v.nom', 'ASC');
+                    break;
+
+                case 'prixASC':
+                    $query->orderBy('v.prix', 'ASC');
+                    break;
+            
+                case 'prixDESC':
+                    $query->orderBy('v.prix', 'DESC');
+                    break;
+
+                default:
+                    break;
+            }
         }
 
         return $query->getQuery()->getResult();

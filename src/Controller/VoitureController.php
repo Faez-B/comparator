@@ -38,7 +38,7 @@ class VoitureController extends AbstractController
     #[Route('/search', name: 'app_voiture_search', methods: ["POST"])]
     public function search(Request $request): Response
     {
-        $energie = null; $marque = null; $prixMax = null;
+        $energie = null; $marque = null; $prixMax = null; $etat = null; $conso = null; $sortType = null;
 
         $em = $this->getDoctrine()->getManager();
 
@@ -50,10 +50,14 @@ class VoitureController extends AbstractController
 
         if (isset($_POST["prixMax"]) && $_POST["prixMax"])  $prixMax = $_POST["prixMax"];
 
-        // dd($energie, $prixMax, $marque);
+        if (isset($_POST["etat"]) && $_POST["etat"])        $etat = $_POST["etat"];
+
+        if (isset($_POST["conso"]) && $_POST["conso"])      $conso = $_POST["conso"];
+
+        if (isset($_POST["sortType"]) && $_POST["sortType"]) $sortType = $_POST["sortType"];
 
         return $this->render('voiture/_index_body.html.twig', [
-            'voitures' => $em->getRepository(Voiture::class)->search($marque, $energie, $prixMax),
+            'voitures' => $em->getRepository(Voiture::class)->search($marque, $energie, $prixMax, $etat, $conso, $sortType),
         ]);
     }
 

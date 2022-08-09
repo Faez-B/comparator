@@ -22,7 +22,10 @@ $(document).ready(function() {
             data: {
                 energie: energie,
                 marque: marque,
-                prixMax: prixMax
+                prixMax: prixMax,
+                etat: etat,
+                conso: conso,
+                sortType: sortType
             },
             success: function(data) {
                 $("#voiture_index_body").html(data);
@@ -59,5 +62,11 @@ $(document).ready(function() {
         if (newEnergie == 4) unite = "kWh";
 
         $("#conso_unite").html("(" + unite + ")");
+    })
+
+    $(document).on('change', "#trie", function() {
+        sortType = $(this).val();
+
+        filtrer();
     })
 })
