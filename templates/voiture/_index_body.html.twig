@@ -5,7 +5,7 @@
         {% if voiture.energie %}
             <td>{{ voiture.energie.nom }}</td>
         {% else %}
-            <td class="italic text-gray-200">Non spécifié</td>
+            <td class="italic text-gray-400">Non spécifié</td>
         {% endif %}
         <td>{{ voiture.marque.nom }}</td>
         <td>{{ voiture.etat|capitalize }}</td>
@@ -19,9 +19,11 @@
                 {% else %}
                     L/100 km
                 {% endif %}
+            {% else %}
+                <span class="italic text-gray-400">Non spécifié</span>
             {% endif %}
         </td>
-        <td class="italic text-gray-200">{{ voiture.lastUpdate|date("d/m/Y") }}</td>
+        <td class="italic text-gray-400">{{ voiture.lastUpdate|date("d/m/Y") }}</td>
         <td>
             <a href="{{ path('app_voiture_show', {'id': voiture.id}) }}">show</a>
             {% if is_granted("ROLE_ADMIN") %}
