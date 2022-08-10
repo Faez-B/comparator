@@ -1,20 +1,20 @@
 {% for voiture in voitures %}
-    <tr class="border-spacing-1.5">
-        <td class="py-1.5">{{ voiture.nom }}</td>
-        <td class="py-1.5">{{ voiture.prix }}</td>
+    <tr class="border-spacing-1.5 odd:bg-white even:bg-slate-100">
+        <td class="py-1.5 border-r-2">{{ voiture.nom }}</td>
+        <td class="py-1.5 border-r-2">{{ voiture.prix }}</td>
         {% if voiture.energie %}
-            <td class="py-1.5">{{ voiture.energie.nom }}</td>
+            <td class="py-1.5 border-r-2">{{ voiture.energie.nom }}</td>
         {% else %}
-            <td class="italic text-gray-400 py-1.5">Non spécifié</td>
+            <td class="italic text-gray-400 py-1.5 border-r-2">Non spécifié</td>
         {% endif %}
-        <td class="py-1.5">{{ voiture.marque.nom }}</td>
-        <td class="py-1.5">{{ voiture.etat|capitalize }}</td>
+        <td class="py-1.5 border-r-2">{{ voiture.marque.nom }}</td>
+        <td class="py-1.5 border-r-2">{{ voiture.etat|capitalize }}</td>
         {% if voiture.annee %}
-            <td class="py-1.5">{{ voiture.annee }}</td>
+            <td class="py-1.5 border-r-2">{{ voiture.annee }}</td>
         {% else %}
-            <td class="italic text-gray-400 py-1.5">Non spécifié</td>
+            <td class="italic text-gray-400 py-1.5 border-r-2">Non spécifié</td>
         {% endif %}
-        <td class="py-1.5">
+        <td class="py-1.5 border-r-2">
             {% if voiture.consommation %}
             
                 {{ voiture.consommation }} 
@@ -30,15 +30,15 @@
         </td>
         {% if voiture.etat == "occasion" %}
             {% if voiture.kilometrage %}
-                <td class="py-1.5">{{ voiture.kilometrage }}</td>
+                <td class="py-1.5 border-r-2">{{ voiture.kilometrage }}</td>
             {% else %}
-                <td class="italic text-gray-400 py-1.5">Non spécifié</td>
+                <td class="italic text-gray-400 py-1.5 border-r-2">Non spécifié</td>
             {% endif %}
 
         {% else %}
-            <td class="py-1.5 italic text-gray-400">/</td>
+            <td class="py-1.5 italic text-gray-400 border-r-2">/</td>
         {% endif %}
-        <td class="italic text-gray-400 py-1.5">{{ voiture.lastUpdate|date("d/m/Y") }}</td>
+        <td class="italic text-gray-400 py-1.5 border-r-2">{{ voiture.lastUpdate|date("d/m/Y") }}</td>
         <td class="py-1.5">
             <a href="{{ path('voiture_show', {'id': voiture.id}) }}" class="
             bg-blue-500 
