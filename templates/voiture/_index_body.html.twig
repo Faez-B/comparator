@@ -45,14 +45,26 @@
             text-white 
             p-1 px-2  
             border-2 border-blue-500 
-            hover:bg-white hover:text-blue-500">Détails</a>
+            hover:bg-white hover:text-blue-500 
+            w-full 
+            block
+            my-1.5
+            lg:m-0
+            lg:inline-block
+            lg:w-max">Détails</a>
             {% if is_granted("ROLE_ADMIN") %}
                 <a href="{{ path('voiture_edit', {'id': voiture.id}) }}" class="
-            bg-yellow-500 
-            text-white 
-            p-1 px-2  
-            border-2 border-yellow-500 
-            hover:bg-white hover:text-yellow-500">Modifier</a>
+                bg-yellow-500 
+                text-white 
+                p-1 px-2  
+                border-2 border-yellow-500 
+                hover:bg-white hover:text-yellow-500 
+                w-full 
+                block
+                my-1.5
+                lg:m-0
+                lg:inline-block
+                lg:w-max">Modifier</a>
             {% endif %}
         </td>
     </tr>
