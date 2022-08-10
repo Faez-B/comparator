@@ -29,21 +29,25 @@
         <input type="radio" name="etat" id="occasion" value="occasion">
     </div>
 
-    <div class="occasion hidden">
+    <div class="occasion {% if not voiture.annee and not voiture.kilometrage %}hidden{% endif %}">
         <div>
-            <input type="text" name="annee" id="annee" value="" placeholder="Annee">
+            <label for="annee">Année : </label>
+            <input type="text" name="annee" id="annee" value="{{ voiture.annee }}" placeholder="Annee">
         </div>
 
         <div>
-            <input type="text" name="kilometrage" id="kilometrage" value="" placeholder="Kilometrage">
+            <label for="kilometrage">Kilométrage : </label>
+            <input type="text" name="kilometrage" id="kilometrage" value="{{ voiture.kilometrage }}" placeholder="Kilometrage">
         </div>
     </div>
 
     <div>
+        <label>Prix : </label>
         {{ form_widget(form.prix, { "attr" : { "autocomplete" : true, "placeholder" : "Prix" } }) }}
     </div>
 
     <div>
+        <label>Consommation : </label>
         {{ form_widget(form.consommation, { "attr" : { "autocomplete" : true, "placeholder" : "Consommation (facultative)" } }) }}
         <span id="conso_unite"></span>
     </div>
