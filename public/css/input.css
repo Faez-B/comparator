@@ -13,6 +13,12 @@
     a {
       @apply text-blue-600;
     }
+    select {
+      @apply py-2;
+      @apply px-1;
+      @apply my-1;
+      @apply rounded-3xl;
+    }
 }  
 
 @tailwind components;

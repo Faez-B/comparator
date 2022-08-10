@@ -5,6 +5,15 @@
 {% block body %}
     <h1 class="text-center">Voiture index</h1>
 
+    <div class="my-3">
+        <a href="{{ path('voiture_new') }}" class="
+        bg-lime-500 
+        text-white 
+        p-1 px-2  
+        border-2 border-lime-500 
+        hover:bg-white hover:text-lime-500">Ajouter une voiture</a>
+    </div>
+
     <div class="columns-2">
         <div class="">
             <div>
@@ -68,6 +77,4 @@
             {% include "voiture/_index_body.html.twig" %}
         </tbody>
     </table>
-
-    <a href="{{ path('voiture_new') }}">Créer</a>
 {% endblock %}
