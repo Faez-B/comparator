@@ -29,6 +29,16 @@
         <input type="radio" name="etat" id="occasion" value="occasion">
     </div>
 
+    <div class="occasion hidden">
+        <div>
+            <input type="text" name="annee" id="annee" value="" placeholder="Annee">
+        </div>
+
+        <div>
+            <input type="text" name="kilometrage" id="kilometrage" value="" placeholder="Kilometrage">
+        </div>
+    </div>
+
     <div>
         {{ form_widget(form.prix, { "attr" : { "autocomplete" : true, "placeholder" : "Prix" } }) }}
     </div>

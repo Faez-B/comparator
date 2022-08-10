@@ -77,4 +77,16 @@ $(document).ready(function() {
 
         filtrer();
     })
+
+    $(document).on('change', "#occasion", function() {
+        $(".occasion.hidden").show(function() {
+            $(".occasion.hidden").slideDown(300);
+        })
+    })
+
+    $(document).on('change', "#neuf", function() {
+        $(".occasion.hidden").hide(function() {
+            $(".occasion.hidden").slideUp(300);
+        })
+    })
 })

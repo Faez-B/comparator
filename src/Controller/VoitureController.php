@@ -89,6 +89,14 @@ class VoitureController extends AbstractController
                 $voiture->setEtat($_POST['etat']);
             }
 
+            if (isset($_POST['annee']) && $_POST['annee']) {
+                $voiture->setAnnee($_POST['annee']);
+            }
+
+            if (isset($_POST['kilometrage']) && $_POST['kilometrage']) {
+                $voiture->setKilometrage($_POST['kilometrage']);
+            }
+
             $em->persist($voiture);
             $em->flush();
 

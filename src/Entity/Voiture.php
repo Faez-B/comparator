@@ -36,6 +36,12 @@ class Voiture
     #[ORM\Column(nullable: true)]
     private ?float $consommation = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $annee = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $kilometrage = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -121,6 +127,30 @@ class Voiture
     public function setConsommation(?float $consommation): self
     {
         $this->consommation = $consommation;
+
+        return $this;
+    }
+
+    public function getAnnee(): ?string
+    {
+        return $this->annee;
+    }
+
+    public function setAnnee(?string $annee): self
+    {
+        $this->annee = $annee;
+
+        return $this;
+    }
+
+    public function getKilometrage(): ?string
+    {
+        return $this->kilometrage;
+    }
+
+    public function setKilometrage(?string $kilometrage): self
+    {
+        $this->kilometrage = $kilometrage;
 
         return $this;
     }
