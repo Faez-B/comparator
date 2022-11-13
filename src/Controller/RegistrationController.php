@@ -53,6 +53,11 @@ class RegistrationController extends AbstractController
 
             $mailer->send($message);
 
+            $this->addFlash(
+                'success_register',
+                'Votre compte a été créé, vous allez recevoir un email avec vos identifiants !'
+            );
+
             $entityManager->flush();
 
             return $this->redirectToRoute('index');
