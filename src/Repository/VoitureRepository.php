@@ -132,6 +132,20 @@ class VoitureRepository extends ServiceEntityRepository
         return $query;
     }
 
+    /**
+     * It returns all the cars after $year
+     */
+    public function getAllAfterYear(int $year) {
+        $query = $this->createQueryBuilder('v')
+            ->andWhere("v.annee > :year")
+            ->setParameter("year", "%" . $year . "%" )
+            ->getQuery()
+            ->getSingleScalarResult()
+        ;
+
+        return $query;
+    }
+
 //    /**
 //     * @return Voiture[] Returns an array of Voiture objects
 //     */
