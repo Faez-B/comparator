@@ -1,5 +1,5 @@
 {% for voiture in voitures %}
-    <tr class="border-spacing-1.5 odd:bg-white even:bg-slate-100">
+    <tr class="border-spacing-1.5 odd:bg-white even:bg-slate-100 dark:odd:bg-slate-200 dark:even:bg-slate-300 text-gray-400">
         <td class="py-1.5 border-r-2">{{ voiture.nom }}</td>
         <td class="py-1.5 border-r-2">{{ voiture.prix }}</td>
         {% if voiture.energie %}

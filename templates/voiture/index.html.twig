@@ -14,10 +14,10 @@
         hover:bg-white hover:text-lime-500">Ajouter une voiture</a>
     </div>
 
-    <div class="columns-2">
+    <div class="columns-1 lg:columns-2">
         <div class="">
             <div>
-                <select name="energieAjax" id="energieAjax">
+                <select class="px-3 dark:text-slate-200 dark:bg-slate-400" name="energieAjax" id="energieAjax">
                     <option value="">Choisissez une énergie</option>
                     {% for energie in energies %}
                         <option value="{{ energie.id }}">{{ energie.nom }}</option>
@@ -26,7 +26,7 @@
             </div>
 
             <div>
-                <select name="marqueAjax" id="marqueAjax">
+                <select class="px-3 dark:text-slate-200 dark:bg-slate-400" name="marqueAjax" id="marqueAjax">
                     <option value="">Choisissez une marque</option>
                     {% for marque in marques %}
                         <option value="{{ marque.id }}">{{ marque.nom }}</option>
@@ -43,7 +43,7 @@
 
         <div class="">
             <div>
-                <select name="trie" id="trie">
+                <select class="px-3 dark:text-slate-200 dark:bg-slate-400" name="trie" id="trie">
                     <option value="">Trier par</option>
                     <option value="alphabet">Alphabétique</option>
                     <option value="prixASC">Prix croissant</option>
