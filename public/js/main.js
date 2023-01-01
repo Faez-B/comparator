@@ -89,4 +89,8 @@ $(document).ready(function() {
             $(".occasion.hidden").slideUp(300);
         })
     })
+
+    $(document).on('click', ".flash-message .croix", function() {
+        $(this).closest(".flash-message").hide(300);
+    })
 })
