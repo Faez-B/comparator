@@ -1,30 +1,60 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Voiture{% endblock %}
+{% block title %}Voiture : {{ voiture.nom }}{% endblock %}
 
 {% block body %}
-    <h1>Voiture</h1>
+    <h1 class="text-center">{{ voiture.nom }}</h1>
 
-    <table class="table">
+    <a href="{{ path('voiture_index') }}">
+        <button class="rounded-md outline outline-offset-1 outline-2 outline-blue-600 px-3 py-2 my-4 font-semibold leading-6 text-white hover:bg-blue-500">
+            Retour
+        </button>
+    </a>
+
+    <table class="table text-left">
         <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ voiture.id }}</td>
-            </tr>
-            <tr>
-                <th>Nom</th>
-                <td>{{ voiture.nom }}</td>
-            </tr>
             <tr>
                 <th>Prix</th>
                 <td>{{ voiture.prix }}</td>
             </tr>
+            <tr>
+                <th>Marque</th>
+                <td>{{ voiture.marque }}</td>
+            </tr>
+            <tr>
+                <th>Energie</th>
+                <td>{{ voiture.energie }}</td>
+            </tr>
+            <tr>
+                <th>Etat</th>
+                <td>{{ voiture.etat }}</td>
+            </tr>
+            <tr>
+                <th>Consommation</th>
+                <td>{{ voiture.consommation }}</td>
+            </tr>
+            <tr>
+                <th>Année</th>
+                <td>{{ voiture.annee }}</td>
+            </tr>
+            <tr>
+                <th>Kilométrage</th>
+                <td>{{ voiture.kilometrage }}</td>
+            </tr>
+            <tr>
+                <th>Dernière mise à jour</th>
+                <td>{{ voiture.lastUpdateString }}</td>
+            </tr>
         </tbody>
     </table>
 
-    <a href="{{ path('voiture_index') }}">back to list</a>
+    <div class="flex gap-3 my-4">
+        <a href="{{ path('voiture_edit', {'id': voiture.id}) }}">
+            <button class="rounded-md bg-blue-600 border border-1 border-blue-600 px-3 py-2 font-semibold leading-6 text-white hover:bg-white hover:text-blue-600">
+                Modifier
+            </button>
+        </a>
 
-    <a href="{{ path('voiture_edit', {'id': voiture.id}) }}">edit</a>
-
-    {{ include('voiture/_delete_form.html.twig') }}
+        {{ include('voiture/_delete_form.html.twig') }}
+    </div>
 {% endblock %}

@@ -95,6 +95,11 @@ class Voiture
         return $this;
     }
 
+    public function getLastUpdateString(): ?string
+    {
+        return $this->lastUpdate->format('d/m/Y');
+    }
+
     public function getEnergie(): ?Energie
     {
         return $this->energie;
