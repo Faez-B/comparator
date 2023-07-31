@@ -3,9 +3,13 @@
 {% block title %}New Voiture{% endblock %}
 
 {% block body %}
-    <h1 class="text-center">Create new Voiture</h1>
+    <h1 class="text-center my-3">Nouvelle voiture</h1>
+
+    <a href="{{ path('voiture_index') }}">
+        <button class="rounded-md outline outline-offset-1 outline-2 outline-blue-600 px-3 py-2 font-semibold leading-6 text-white hover:bg-blue-500">
+            Retour
+        </button>
+    </a>
 
     {{ include('voiture/_form.html.twig') }}
-
-    <a href="{{ path('voiture_index') }}">back to list</a>
 {% endblock %}

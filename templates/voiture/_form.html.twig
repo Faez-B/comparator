@@ -1,58 +1,23 @@
-{{ form_start(form) }}
-    <div>
-        {{ form_widget(form.nom, { "attr" : { "autofocus" : true, "autocomplete" : true, "placeholder" : "Nom de la voiture" } }) }}
-    </div>
+{{ form_start(form, { 'attr' : { 'class' : 'my-4' } }) }}
+    <div>{{ form_widget(form.nom) }}</div>
 
-    <div>
-        <select name="marque" id="marque">
-            <option value="">Choisissez une marque</option>
-            {% for marque in marques %}
-                <option value="{{ marque.id }}">{{ marque.nom }}</option>
-            {% endfor %}
-        </select>
-    </div>
+    <div>{{ form_widget(form.marque) }}</div>
 
-    <div>
-        <select name="energie" id="energie">
-            <option value="">Choisissez une énergie</option>
-            {% for energie in energies %}
-                <option value="{{ energie.id }}">{{ energie.nom }}</option>
-            {% endfor %}
-        </select>
-    </div>
+    <div>{{ form_widget(form.energie) }}</div>
 
-    <div>
-        <label>Neuf</label>
-        <input type="radio" name="etat" id="neuf" value="neuf">
-        
-        <label>Occasion</label>
-        <input type="radio" name="etat" id="occasion" value="occasion">
-    </div>
+    <div>{{ form_widget(form.etat) }}</div>
 
     <div class="occasion {% if not voiture.annee and not voiture.kilometrage %}hidden{% endif %}">
-        <div>
-            <label for="annee">Année : </label>
-            <input type="text" name="annee" id="annee" value="{{ voiture.annee }}" placeholder="Annee">
-        </div>
+        <div>{{ form_widget(form.annee) }}</div>
 
-        <div>
-            <label for="kilometrage">Kilométrage : </label>
-            <input type="text" name="kilometrage" id="kilometrage" value="{{ voiture.kilometrage }}" placeholder="Kilometrage">
-        </div>
+        <div>{{ form_widget(form.kilometrage) }}</div>
     </div>
 
-    <div>
-        <label>Prix : </label>
-        {{ form_widget(form.prix, { "attr" : { "autocomplete" : true, "placeholder" : "Prix" } }) }}
-    </div>
+    <div>{{ form_widget(form.prix) }}</div>
 
-    <div>
-        <label>Consommation : </label>
-        {{ form_widget(form.consommation, { "attr" : { "autocomplete" : true, "placeholder" : "Consommation (facultative)" } }) }}
-        <span id="conso_unite"></span>
-    </div>
+    <div>{{ form_widget(form.consommation) }}</div>
 
-    <div>
-        <button class="btn">{{ button_label|default('Créer') }}</button>
+    <div class="text-center my-3">
+        <button class="btn px-3 py-2 bg-lime-500 border border-lime-500 border-2 rounded-md hover:bg-white hover:text-lime-500">{{ button_label|default('Créer') }}</button>
     </div>
 {{ form_end(form) }}
