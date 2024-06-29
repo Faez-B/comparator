@@ -71,7 +71,7 @@ class VoitureType extends AbstractType
                     'Occasion' => 'Occasion',
                 ],
                 'attr' => [
-                    'class' => 'etat-change',                    
+                    'class' => 'etat-change',
                 ],
             ])
             ->add('consommation', NumberType::class, [

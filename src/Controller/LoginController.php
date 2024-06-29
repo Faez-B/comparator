@@ -25,10 +25,10 @@ class LoginController extends AbstractController
     }
 
     #[Route('/logout', name: 'logout', methods: ['GET'])]
-    public function logout() : void
+    public function logout(): void
     {
         throw new \Exception('This should never be reached!');
     }
-    // TODO : Tests à réaliser sur la route 
+    // TODO : Tests à réaliser sur la route
     // => Quand on se déconnecte, on doit être redirigé vers la page de connexion
 }
