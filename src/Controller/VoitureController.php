@@ -44,19 +44,29 @@ class VoitureController extends AbstractController
 
         $em = $this->getDoctrine()->getManager();
 
-        if (isset($_POST["energie"]) && $_POST["energie"])  
+        if (isset($_POST["energie"]) && $_POST["energie"]) {
             $energie = $em->getRepository(Energie::class)->find((int)$_POST["energie"]);
+        }
 
-        if (isset($_POST["marque"]) && $_POST["marque"])    
+        if (isset($_POST["marque"]) && $_POST["marque"]) {
             $marque = $em->getRepository(Marque::class)->find((int)$_POST["marque"]);
+        }
 
-        if (isset($_POST["prixMax"]) && $_POST["prixMax"])  $prixMax = $_POST["prixMax"];
+        if (isset($_POST["prixMax"]) && $_POST["prixMax"]) {
+            $prixMax = $_POST["prixMax"];
+        }
 
-        if (isset($_POST["etat"]) && $_POST["etat"])        $etat = $_POST["etat"];
+        if (isset($_POST["etat"]) && $_POST["etat"]) {
+            $etat = $_POST["etat"];
+        }
 
-        if (isset($_POST["conso"]) && $_POST["conso"])      $conso = $_POST["conso"];
+        if (isset($_POST["conso"]) && $_POST["conso"]) {
+            $conso = $_POST["conso"];
+        }
 
-        if (isset($_POST["sortType"]) && $_POST["sortType"]) $sortType = $_POST["sortType"];
+        if (isset($_POST["sortType"]) && $_POST["sortType"]) {
+            $sortType = $_POST["sortType"];
+        }
 
         return $this->render('voiture/_index_body.html.twig', [
             'voitures' => $em->getRepository(Voiture::class)->search($marque, $energie, $prixMax, $etat, $conso, $sortType),

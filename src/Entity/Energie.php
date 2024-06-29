@@ -68,11 +68,9 @@ class Energie
 
     public function removeVoiture(Voiture $voiture): self
     {
-        if ($this->voitures->removeElement($voiture)) {
-            // set the owning side to null (unless already changed)
-            if ($voiture->getEnergie() === $this) {
-                $voiture->setEnergie(null);
-            }
+        // set the owning side to null (unless already changed)
+        if ($this->voitures->removeElement($voiture) && $voiture->getEnergie() === $this) {
+            $voiture->setEnergie(null);
         }
 
         return $this;

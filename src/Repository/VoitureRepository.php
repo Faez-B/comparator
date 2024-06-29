@@ -45,16 +45,16 @@ class VoitureRepository extends ServiceEntityRepository
 
     /**
      * It returns all the cars that match the given criteria
-     * 
+     *
      * @param Marque marque the brand of the car
      * @param Energie energie The energy type of the car (gasoline, diesel, electric, etc.)
      * @param float prixMax The maximum price of the car
-     * 
-     * @return An array of objects
+     *
+     * @return an array of objects
      */
     public function search(
-        Marque $marque = null, 
-        Energie $energie = null, 
+        Marque $marque = null,
+        Energie $energie = null,
         float $prixMax = null,
         String $etat = null,
         float $conso = null,
@@ -63,20 +63,18 @@ class VoitureRepository extends ServiceEntityRepository
         $query = $this->createQueryBuilder('v');
         $query->select('v');
 
-        if ($marque !== null) {
-
+        if ($marque instanceof Marque) {
             $query
                 ->andWhere('v.marque = :marque')
                 ->setParameter('marque', $marque);
 
         }
 
-        if ($energie !== null) {
+        if ($energie instanceof Energie) {
 
             $query
                 ->andWhere('v.energie = :energie')
                 ->setParameter('energie', $energie);
-                
         }
 
         if ($prixMax) {
@@ -84,7 +82,6 @@ class VoitureRepository extends ServiceEntityRepository
             $query
                 ->andWhere('v.prix <= :prixMax')
                 ->setParameter('prixMax', $prixMax);
-                
         }
 
         if ($sortType) {
@@ -96,15 +93,15 @@ class VoitureRepository extends ServiceEntityRepository
                 case 'prixASC':
                     $query->orderBy('v.prix', 'ASC');
                     break;
-            
+
                 case 'prixDESC':
                     $query->orderBy('v.prix', 'DESC');
                     break;
 
-                // case 'consoElecASC':
-                //     $query->andWhere('v.energie.id = 4')
-                //         ->orderBy('v.consommation', 'ASC');
-                //     break;
+                    // case 'consoElecASC':
+                    //     $query->andWhere('v.energie.id = 4')
+                    //         ->orderBy('v.consommation', 'ASC');
+                    //     break;
 
                 default:
                     break;
@@ -122,52 +119,48 @@ class VoitureRepository extends ServiceEntityRepository
     /**
      * It returns the maximum price of all the vehicles in the database
      */
-    public function getMaxPrix() {
-        $query = $this->createQueryBuilder('v')
+    public function getMaxPrix()
+    {
+        return $this->createQueryBuilder('v')
             ->select('MAX(v.prix)')
             ->getQuery()
-            ->getSingleScalarResult()
-        ;
-
-        return $query;
+            ->getSingleScalarResult();
     }
 
     /**
      * It returns all the cars after $year
      */
-    public function getAllAfterYear(int $year) {
-        $query = $this->createQueryBuilder('v')
+    public function getAllAfterYear(int $year)
+    {
+        return $this->createQueryBuilder('v')
             ->andWhere("v.annee > :year")
-            ->setParameter("year", "%" . $year . "%" )
+            ->setParameter("year", "%" . $year . "%")
             ->getQuery()
-            ->getSingleScalarResult()
-        ;
-
-        return $query;
+            ->getSingleScalarResult();
     }
 
-//    /**
-//     * @return Voiture[] Returns an array of Voiture objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('v')
-//            ->andWhere('v.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('v.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    //    /**
+    //     * @return Voiture[] Returns an array of Voiture objects
+    //     */
+    //    public function findByExampleField($value): array
+    //    {
+    //        return $this->createQueryBuilder('v')
+    //            ->andWhere('v.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->orderBy('v.id', 'ASC')
+    //            ->setMaxResults(10)
+    //            ->getQuery()
+    //            ->getResult()
+    //        ;
+    //    }
 
-//    public function findOneBySomeField($value): ?Voiture
-//    {
-//        return $this->createQueryBuilder('v')
-//            ->andWhere('v.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    //    public function findOneBySomeField($value): ?Voiture
+    //    {
+    //        return $this->createQueryBuilder('v')
+    //            ->andWhere('v.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->getQuery()
+    //            ->getOneOrNullResult()
+    //        ;
+    //    }
 }
