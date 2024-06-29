@@ -67,4 +67,8 @@ class RegistrationController extends AbstractController
             'registrationForm' => $form->createView(),
         ]);
     }
+    // TODO : Tests à réaliser sur la route
+    // => 1 - Quand on crée un compte (soumission du form), on doit être redirigé vers la page d'accueil
+    // => 2 - on doit recevoir un email avec nos identifiants
+    // => 3 - Un message flash doit s'afficher pour nous dire que notre compte a été créé
 }

@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class DefaultController extends AbstractController
 {
+    // TODO : Ajouter la vérification du user ICI
     #[Route('/', name: 'index')]
     public function index(): Response
     {
@@ -17,4 +18,7 @@ class DefaultController extends AbstractController
         }
         return $this->redirectToRoute("login");
     }
+    // TODO : Tests à réaliser sur la route
+    // => Quand on est connecté, on doit être redirigé vers la page d'accueil
+    // => Quand on n'est pas connecté, on doit être redirigé vers la page de connexion
 }

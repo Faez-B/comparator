@@ -29,4 +29,6 @@ class LoginController extends AbstractController
     {
         throw new \Exception('This should never be reached!');
     }
+    // TODO : Tests à réaliser sur la route 
+    // => Quand on se déconnecte, on doit être redirigé vers la page de connexion
 }
