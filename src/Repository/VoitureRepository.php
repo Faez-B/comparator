@@ -50,7 +50,7 @@ class VoitureRepository extends ServiceEntityRepository
      * @param Energie energie The energy type of the car (gasoline, diesel, electric, etc.)
      * @param float prixMax The maximum price of the car
      *
-     * @return an array of objects
+     * @return array of objects
      */
     public function search(
         Marque $marque = null,

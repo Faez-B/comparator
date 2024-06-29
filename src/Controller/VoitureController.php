@@ -2,13 +2,12 @@
 
 namespace App\Controller;
 
-use DateTime;
-use DateTimeZone;
 use App\Entity\Marque;
 use App\Entity\Energie;
 use App\Entity\Voiture;
 use App\Form\VoitureType;
 use App\Repository\VoitureRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -17,14 +16,18 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 #[Route('/voiture')]
 class VoitureController extends AbstractController
 {
+    public function __construct(
+        private readonly EntityManagerInterface $em,
+    ) {
+    }
+
     #[Route('/', name: 'voiture_index', methods: ['GET'])]
     public function index(VoitureRepository $voitureRepository): Response
     {
-        $em = $this->getDoctrine()->getManager();
-        $marques = $em->getRepository(Marque::class)->findAllAsc();
-        $energies = $em->getRepository(Energie::class)->findAll();
+        $marques = $this->em->getRepository(Marque::class)->findAllAsc();
+        $energies = $this->em->getRepository(Energie::class)->findAll();
 
-        // $prixMax = $em->getRepository(Voiture::class)->getMaxPrix();
+        // $prixMax = $this->em->getRepository(Voiture::class)->getMaxPrix();
         $prixMax = $voitureRepository->getMaxPrix();
 
         return $this->render('voiture/index.html.twig', [
@@ -40,16 +43,19 @@ class VoitureController extends AbstractController
     #[Route('/search', name: 'voiture_search', methods: ["POST"])]
     public function search(Request $request): Response
     {
-        $energie = null; $marque = null; $prixMax = null; $etat = null; $conso = null; $sortType = null;
-
-        $em = $this->getDoctrine()->getManager();
+        $energie = null;
+        $marque = null;
+        $prixMax = null;
+        $etat = null;
+        $conso = null;
+        $sortType = null;
 
         if (isset($_POST["energie"]) && $_POST["energie"]) {
-            $energie = $em->getRepository(Energie::class)->find((int)$_POST["energie"]);
+            $energie = $this->em->getRepository(Energie::class)->find((int)$_POST["energie"]);
         }
 
         if (isset($_POST["marque"]) && $_POST["marque"]) {
-            $marque = $em->getRepository(Marque::class)->find((int)$_POST["marque"]);
+            $marque = $this->em->getRepository(Marque::class)->find((int)$_POST["marque"]);
         }
 
         if (isset($_POST["prixMax"]) && $_POST["prixMax"]) {
@@ -69,7 +75,7 @@ class VoitureController extends AbstractController
         }
 
         return $this->render('voiture/_index_body.html.twig', [
-            'voitures' => $em->getRepository(Voiture::class)->search($marque, $energie, $prixMax, $etat, $conso, $sortType),
+            'voitures' => $this->em->getRepository(Voiture::class)->search($marque, $energie, $prixMax, $etat, $conso, $sortType),
         ]);
     }
     // TODO : Tests à réaliser sur la route
@@ -83,10 +89,9 @@ class VoitureController extends AbstractController
         $voiture = new Voiture();
         $form = $this->createForm(VoitureType::class, $voiture);
         $form->handleRequest($request);
-        $em = $this->getDoctrine()->getManager();
 
-        $marques = $em->getRepository(Marque::class)->findAllAsc();
-        $energies = $em->getRepository(Energie::class)->findAll();
+        $marques = $this->em->getRepository(Marque::class)->findAllAsc();
+        $energies = $this->em->getRepository(Energie::class)->findAll();
 
         if ($form->isSubmitted() && $form->isValid()) {
             $voitureRepository->add($voiture, false);
@@ -97,12 +102,12 @@ class VoitureController extends AbstractController
             // Enlever les if pour les champs
             // => il doivent être gérer dans le formulaire (Form)
             if ($_POST["marque"]) {
-                $marque = $em->getRepository(Marque::class)->find($_POST["marque"]);
+                $marque = $this->em->getRepository(Marque::class)->find($_POST["marque"]);
                 $voiture->setMarque($marque);
             }
 
             if ($_POST['energie']) {
-                $energie = $em->getRepository(Energie::class)->find($_POST['energie']);
+                $energie = $this->em->getRepository(Energie::class)->find($_POST['energie']);
                 $voiture->setEnergie($energie);
             }
 
@@ -118,13 +123,13 @@ class VoitureController extends AbstractController
                 $voiture->setKilometrage($_POST['kilometrage']);
             }
 
-            $em->persist($voiture);
-            $em->flush();
+            $this->em->persist($voiture);
+            $this->em->flush();
 
             return $this->redirectToRoute('voiture_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('voiture/new.html.twig', [
+        return $this->render('voiture/new.html.twig', [
             'voiture' => $voiture,
             'marques' => $marques,
             'energies' => $energies,
@@ -145,23 +150,22 @@ class VoitureController extends AbstractController
     {
         $form = $this->createForm(VoitureType::class, $voiture);
         $form->handleRequest($request);
-        $em = $this->getDoctrine()->getManager();
 
-        $marques = $em->getRepository(Marque::class)->findAllAsc();
-        $energies = $em->getRepository(Energie::class)->findAll();
+        $marques = $this->em->getRepository(Marque::class)->findAllAsc();
+        $energies = $this->em->getRepository(Energie::class)->findAll();
 
         if ($form->isSubmitted() && $form->isValid()) {
             $voitureRepository->add($voiture, false);
-            
+
             // Enlever les if pour les champs
             // => il doivent être gérer dans le formulaire (Form)
             if ($_POST["marque"]) {
-                $marque = $em->getRepository(Marque::class)->find($_POST["marque"]);
+                $marque = $this->em->getRepository(Marque::class)->find($_POST["marque"]);
                 $voiture->setMarque($marque);
             }
 
             if ($_POST['energie']) {
-                $energie = $em->getRepository(Energie::class)->find($_POST['energie']);
+                $energie = $this->em->getRepository(Energie::class)->find($_POST['energie']);
                 $voiture->setEnergie($energie);
             }
 
@@ -169,8 +173,8 @@ class VoitureController extends AbstractController
                 $voiture->setEtat($_POST['etat']);
             }
 
-            $em->persist($voiture);
-            $em->flush();
+            $this->em->persist($voiture);
+            $this->em->flush();
 
             // dd($voiture);
 
