@@ -1,11 +1,15 @@
 
-# Comparator
+# Device Comparison Tool (Comparator)
 
-In this project, the goal is to compare any kind of device so that you can make the best choice according to your preferences.
-Products that are compared can be : 
-- Vehicules (cars, trucks, motorcycles)
-- Phones, Tablets, TVs
-- and so on
+This project aims to provide a tool for comparing different types of devices so that users can make informed decisions based on their preferences. The tool can be used to compare a wide range of products, including :
+
+Vehicles (cars, trucks, motorcycles)
+Electronics (phones, tablets, TVs)
+Appliances (refrigerators, washing machines, etc.)
+
+To use the tool, simply select the type of device you want to compare and enter the relevant information for each product.
+<!-- The tool will then generate a side-by-side comparison of the products, highlighting their similarities and differences. -->
+
 ## Instalation
 
 Clone the project
