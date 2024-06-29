@@ -28,7 +28,7 @@ class VoitureType extends AbstractType
                     'placeholder' => 'Nom de la voiture',
                     'autocomplete' => true,
                     'autofocus' => true,
-                    'class' => 'px-5 py-3 rounded-full text-gray-700 my-2'
+                    'class' => 'px-5 py-3 rounded-full color-gris my-2'
                 ]
             ])
             ->add('prix', MoneyType::class, [
@@ -38,7 +38,7 @@ class VoitureType extends AbstractType
                     'placeholder' => 'Prix de la voiture',
                     'autocomplete' => true,
                     'autofocus' => true,
-                    'class' => 'px-5 py-3 rounded-full text-gray-700 my-2'
+                    'class' => 'px-5 py-3 rounded-full text-slate-700 my-2 dark:text-slate-700'
                 ]
             ])
             ->add('marque', EntityType::class, [
@@ -79,7 +79,7 @@ class VoitureType extends AbstractType
                     'placeholder' => 'Consommation de la voiture',
                     'autocomplete' => true,
                     'autofocus' => true,
-                    'class' => 'px-5 py-3 rounded-full text-gray-700 my-2'
+                    'class' => 'px-5 py-3 rounded-full text-gray-700 my-2 dark:text-gray-700'
                 ]
             ])
             ->add('annee', IntegerType::class, [

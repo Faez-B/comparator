@@ -19,6 +19,10 @@
       @apply my-1;
       @apply rounded-3xl;
     }
+
+    .color-gris {
+      @apply text-gray-600;
+    }
 }  
 
 @tailwind components;
