@@ -2,6 +2,7 @@
 
 namespace App\Test\Controller;
 
+use App\Entity\Marque;
 use App\Entity\Voiture;
 use App\Repository\VoitureRepository;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
@@ -57,10 +58,13 @@ class VoitureControllerTest extends WebTestCase
     public function testShow(): void
     {
         $this->markTestIncomplete();
+
+        $marque = new Marque();
+
         $fixture = new Voiture();
         $fixture->setNom('My Title');
         $fixture->setPrix('My Title');
-        $fixture->setMarque('My Title');
+        $fixture->setMarque($marque);
 
         $this->repository->add($fixture, true);
 
@@ -75,10 +79,13 @@ class VoitureControllerTest extends WebTestCase
     public function testEdit(): void
     {
         $this->markTestIncomplete();
+
+        $marque = new Marque();
+
         $fixture = new Voiture();
         $fixture->setNom('My Title');
         $fixture->setPrix('My Title');
-        $fixture->setMarque('My Title');
+        $fixture->setMarque($marque);
 
         $this->repository->add($fixture, true);
 
@@ -105,10 +112,12 @@ class VoitureControllerTest extends WebTestCase
 
         $originalNumObjectsInRepository = count($this->repository->findAll());
 
+        $marque = new Marque();
+
         $fixture = new Voiture();
         $fixture->setNom('My Title');
         $fixture->setPrix('My Title');
-        $fixture->setMarque('My Title');
+        $fixture->setMarque($marque);
 
         $this->repository->add($fixture, true);
 
