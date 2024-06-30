@@ -7,6 +7,8 @@ services:
             MYSQL_DATABASE: main
         ports:
             - '3306:3306'
+        volumes:
+            - ./docker/data:/var/lib/mysql
 
     phpmyadmin:
         image: 'phpmyadmin/phpmyadmin:5.2.1'
@@ -18,3 +20,6 @@ services:
             - '8080:80'
         depends_on:
             - database
+
+volumes:
+    data:
