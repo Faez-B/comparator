@@ -20,9 +20,10 @@
 ###< symfony/phpunit-bridge ###
 
 /node_modules/
-.env
 
 .DS_Store
 ###> phpstan/phpstan ###
 phpstan.neon
 ###< phpstan/phpstan ###
+
+docker/
