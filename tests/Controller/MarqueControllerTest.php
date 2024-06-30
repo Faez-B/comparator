@@ -15,7 +15,7 @@ class MarqueControllerTest extends WebTestCase
 
     protected function setUp(): void
     {
-        $this->client = static::createClient();
+        // $this->client = static::createClient();
         $this->repository = (static::getContainer()->get('doctrine'))->getRepository(Marque::class);
 
         foreach ($this->repository->findAll() as $object) {

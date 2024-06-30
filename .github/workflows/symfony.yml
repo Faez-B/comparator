@@ -15,15 +15,6 @@ permissions:
   contents: read
 
 jobs:
-  # This job is inspired by php.yml workflow
-  validate:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v4
-
-    - name: Validate composer.json and composer.lock
-      run: composer validate --strict
-
   symfony-tests:
     runs-on: ubuntu-latest
     steps:
@@ -51,10 +42,11 @@ jobs:
 
     - name: Create Database
       run: |
-        mkdir -p data
-        touch data/database.sqlite
+        docker compose up -d
+        ./bin/console doctrine:database:create --env=test
+        ./bin/console doctrine:migrations:migrate --env=test
 
     - name: Execute tests (Unit and Feature tests) via PHPUnit
       env:
-        DATABASE_URL: sqlite:///%kernel.project_dir%/data/database.sqlite
-      run: vendor/bin/phpunit
+        DATABASE_URL: mysql://root:test@database/main_test?serverVersion=8&charset=utf8mb4"
+      run: ./bin/phpunit

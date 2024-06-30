@@ -2,11 +2,19 @@ version: '3.8'
 
 services:
 ###> doctrine/doctrine-bundle ###
-
+  database_test:
+    image: mysql:8.4.0
+    container_name: database_test
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: main_test
+    ports: 
+      - 3306
 ###< doctrine/doctrine-bundle ###
 
 ###> symfony/mailer ###
   mailer:
     image: schickling/mailcatcher
+    container_name: mailer
     ports: [1025, 1080]
 ###< symfony/mailer ###
