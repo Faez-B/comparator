@@ -1,18 +1,24 @@
 services:
 ###> doctrine/doctrine-bundle ###
-  # database_test:
-  #   image: mysql:8.4
-  #   container_name: database_test
-  #   environment:
-  #     MYSQL_ROOT_PASSWORD: symfony
-  #     MYSQL_DATABASE: symfony_test
-  #   ports: 
-  #     - 3306
+  database_test:
+    image: mysql:8.4
+    container_name: database_test
+    environment:
+      MYSQL_ROOT_PASSWORD: symfony_test
+      MYSQL_DATABASE: symfony_test
+      MYSQL_USER: symfony_test
+      MYSQL_PASSWORD: symfony_test
+    ports: 
+      - 3306
+    volumes:
+      - ./docker/conf/mysql/my.cnf:/etc/mysql/conf.d/my.cnf
+    networks:
+      - symfony
 ###< doctrine/doctrine-bundle ###
 
 ###> symfony/mailer ###
-  mailer:
-    image: schickling/mailcatcher
-    container_name: mailer
-    ports: [1025, 1080]
+  # mailer:
+  #   image: schickling/mailcatcher
+  #   container_name: mailer
+  #   ports: [1025, 1080]
 ###< symfony/mailer ###

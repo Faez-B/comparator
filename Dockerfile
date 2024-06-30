@@ -12,6 +12,8 @@ RUN apt-get update -y && apt-get install -y --no-install-recommends \
     ca-certificates \
     gnupg
 
+RUN docker-php-ext-install pdo pdo_mysql zip
+
 ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
 RUN chmod +x /usr/local/bin/install-php-extensions && \
     install-php-extensions mbstring apcu opcache intl zip pdo pdo_mysql

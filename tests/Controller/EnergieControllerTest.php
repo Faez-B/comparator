@@ -15,7 +15,7 @@ class EnergieControllerTest extends WebTestCase
 
     protected function setUp(): void
     {
-        // $this->client = static::createClient();
+        $this->client = static::createClient();
         $this->repository = (static::getContainer()->get('doctrine'))->getRepository(Energie::class);
 
         foreach ($this->repository->findAll() as $object) {

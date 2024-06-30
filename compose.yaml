@@ -16,7 +16,7 @@ services:
       MYSQL_USER: symfony
       MYSQL_PASSWORD: symfony
     ports:
-      - "3306:3306"
+      - 3306
     volumes:
       - ./docker/volumes/data:/var/lib/mysql
       # - ./docker/conf/mysql/my.cnf:/etc/mysql/conf.d/my.cnf
@@ -34,6 +34,8 @@ services:
         - '8080:80'
     depends_on:
         - database
+    networks:
+      - symfony
 
 volumes:
   data:

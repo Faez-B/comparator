@@ -48,5 +48,5 @@ jobs:
 
     - name: Execute tests (Unit and Feature tests) via PHPUnit
       env:
-        DATABASE_URL: mysql://root:test@database/main_test?serverVersion=8&charset=utf8mb4"
+        DATABASE_URL: mysql://symfony_test:symfony_test@database:3306/symfony_test?serverVersion=8.4&charset=utf8mb4
       run: ./bin/phpunit
