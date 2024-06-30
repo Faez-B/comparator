@@ -36,9 +36,6 @@ RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 # Switch to non-root user
 USER symfony
 
-# Copy existing application directory contents
-COPY --chown=symfony:symfony . /var/www/symfony
-
 # Install Symfony dependencies
 RUN composer install --no-interaction --prefer-dist --optimize-autoloader
 

@@ -1,15 +1,13 @@
-version: '3.8'
-
 services:
 ###> doctrine/doctrine-bundle ###
-  database_test:
-    image: mysql:8.4
-    container_name: database_test
-    environment:
-      MYSQL_ROOT_PASSWORD: symfony
-      MYSQL_DATABASE: symfony_test
-    ports: 
-      - 3306
+  # database_test:
+  #   image: mysql:8.4
+  #   container_name: database_test
+  #   environment:
+  #     MYSQL_ROOT_PASSWORD: symfony
+  #     MYSQL_DATABASE: symfony_test
+  #   ports: 
+  #     - 3306
 ###< doctrine/doctrine-bundle ###
 
 ###> symfony/mailer ###
