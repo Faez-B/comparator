@@ -3,6 +3,7 @@
 namespace App\Test\Controller;
 
 use App\Entity\Energie;
+use App\Repository\UserRepository;
 use App\Repository\EnergieRepository;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -21,6 +22,14 @@ class EnergieControllerTest extends WebTestCase
         foreach ($this->repository->findAll() as $object) {
             $this->repository->remove($object, true);
         }
+
+        $userRepository = static::getContainer()->get(UserRepository::class);
+
+        // retrieve the test user
+        $testUser = $userRepository->findOneByEmail('test@test.com');
+
+        // simulate $testUser being logged in
+        $this->client->loginUser($testUser);
     }
 
     public function testIndex(): void
@@ -29,21 +38,17 @@ class EnergieControllerTest extends WebTestCase
 
         self::assertResponseStatusCodeSame(200);
         self::assertPageTitleContains('Energie index');
-
-        // Use the $crawler to perform additional assertions e.g.
-        // self::assertSame('Some text on the page', $crawler->filter('.p')->first());
     }
 
     public function testNew(): void
     {
         $originalNumObjectsInRepository = count($this->repository->findAll());
 
-        $this->markTestIncomplete();
         $this->client->request('GET', sprintf('%snew', $this->path));
 
         self::assertResponseStatusCodeSame(200);
 
-        $this->client->submitForm('Save', [
+        $this->client->submitForm('Créer', [
             'energie[nom]' => 'Testing',
         ]);
 
@@ -54,7 +59,6 @@ class EnergieControllerTest extends WebTestCase
 
     public function testShow(): void
     {
-        $this->markTestIncomplete();
         $fixture = new Energie();
         $fixture->setNom('My Title');
 
@@ -64,13 +68,10 @@ class EnergieControllerTest extends WebTestCase
 
         self::assertResponseStatusCodeSame(200);
         self::assertPageTitleContains('Energie');
-
-        // Use assertions to check that the properties are properly displayed.
     }
 
     public function testEdit(): void
     {
-        $this->markTestIncomplete();
         $fixture = new Energie();
         $fixture->setNom('My Title');
 
@@ -91,8 +92,6 @@ class EnergieControllerTest extends WebTestCase
 
     public function testRemove(): void
     {
-        $this->markTestIncomplete();
-
         $originalNumObjectsInRepository = count($this->repository->findAll());
 
         $fixture = new Energie();
