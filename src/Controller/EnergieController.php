@@ -34,7 +34,7 @@ class EnergieController extends AbstractController
             return $this->redirectToRoute('energie_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('energie/new.html.twig', [
+        return $this->render('energie/new.html.twig', [
             'energie' => $energie,
             'form' => $form,
         ]);
@@ -60,7 +60,7 @@ class EnergieController extends AbstractController
             return $this->redirectToRoute('energie_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('energie/edit.html.twig', [
+        return $this->render('energie/edit.html.twig', [
             'energie' => $energie,
             'form' => $form,
         ]);

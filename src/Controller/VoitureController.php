@@ -181,7 +181,7 @@ class VoitureController extends AbstractController
             return $this->redirectToRoute('voiture_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('voiture/edit.html.twig', [
+        return $this->render('voiture/edit.html.twig', [
             'voiture' => $voiture,
             'marques' => $marques,
             'energies' => $energies,
