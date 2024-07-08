@@ -3,6 +3,7 @@
 namespace App\Test\Controller;
 
 use App\Entity\Marque;
+use App\Repository\UserRepository;
 use App\Repository\MarqueRepository;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -21,6 +22,14 @@ class MarqueControllerTest extends WebTestCase
         foreach ($this->repository->findAll() as $object) {
             $this->repository->remove($object, true);
         }
+
+        $userRepository = static::getContainer()->get(UserRepository::class);
+
+        // retrieve the test user
+        $testUser = $userRepository->findOneByEmail('test@test.com');
+
+        // simulate $testUser being logged in
+        $this->client->loginUser($testUser);
     }
 
     public function testIndex(): void
@@ -38,7 +47,6 @@ class MarqueControllerTest extends WebTestCase
     {
         $originalNumObjectsInRepository = count($this->repository->findAll());
 
-        $this->markTestIncomplete();
         $this->client->request('GET', sprintf('%snew', $this->path));
 
         self::assertResponseStatusCodeSame(200);
@@ -54,7 +62,6 @@ class MarqueControllerTest extends WebTestCase
 
     public function testShow(): void
     {
-        $this->markTestIncomplete();
         $fixture = new Marque();
         $fixture->setNom('My Title');
 
@@ -70,7 +77,6 @@ class MarqueControllerTest extends WebTestCase
 
     public function testEdit(): void
     {
-        $this->markTestIncomplete();
         $fixture = new Marque();
         $fixture->setNom('My Title');
 
@@ -91,7 +97,6 @@ class MarqueControllerTest extends WebTestCase
 
     public function testRemove(): void
     {
-        $this->markTestIncomplete();
 
         $originalNumObjectsInRepository = count($this->repository->findAll());
 
