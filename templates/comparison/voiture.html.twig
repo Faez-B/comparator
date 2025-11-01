@@ -1,0 +1,316 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Comparaison de voitures{% endblock %}
+
+{% block body %}
+<div class="page-container">
+    {# Header #}
+    <div class="mb-8">
+        <div class="flex items-center justify-between mb-4">
+            <div>
+                <h1 class="text-4xl font-bold mb-2 flex items-center">
+                    <i class="fa-solid fa-code-compare text-primary-600 dark:text-primary-400 mr-3"></i>
+                    Comparateur de voitures
+                </h1>
+                <p class="text-gray-600 dark:text-gray-400">Comparez jusqu'à 3 voitures côte à côte</p>
+            </div>
+            <a href="{{ path('voiture_index') }}" class="btn btn-secondary">
+                <i class="fa-solid fa-arrow-left mr-2"></i>
+                Retour
+            </a>
+        </div>
+    </div>
+
+    {% if voitures|length == 0 %}
+        {# No vehicles selected #}
+        <div class="card text-center py-16">
+            <i class="fa-solid fa-code-compare text-6xl text-gray-300 dark:text-gray-600 mb-4"></i>
+            <h2 class="text-2xl font-bold mb-4">Sélectionnez des voitures à comparer</h2>
+            <p class="text-gray-600 dark:text-gray-400 mb-8">Choisissez entre 2 et 3 voitures pour les comparer</p>
+            
+            <form method="post" action="{{ path('voiture_comparison_select') }}" id="comparisonForm">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+                    {% for voiture in allVoitures %}
+                        <label class="card-interactive cursor-pointer">
+                            <input type="checkbox" name="selected[]" value="{{ voiture.id }}" class="mr-2">
+                            <div class="inline-flex items-center">
+                                <i class="fa-solid fa-car text-primary-600 mr-2"></i>
+                                <div class="text-left">
+                                    <div class="font-semibold">{{ voiture.nom }}</div>
+                                    <div class="text-sm text-gray-500">{{ voiture.marque.nom }}</div>
+                                </div>
+                            </div>
+                        </label>
+                    {% endfor %}
+                </div>
+                <button type="submit" class="btn btn-primary btn-lg">
+                    <i class="fa-solid fa-code-compare mr-2"></i>
+                    Comparer les voitures sélectionnées
+                </button>
+            </form>
+        </div>
+    {% else %}
+        {# Mobile View - Stacked Cards (visible on mobile) #}
+        <div class="md:hidden space-y-6">
+            {% for voiture in voitures %}
+                <div class="card">
+                    <div class="text-center mb-6 pb-6 border-b border-gray-200 dark:border-gray-700">
+                        <i class="fa-solid fa-car text-5xl text-primary-600 dark:text-primary-400 mb-3" aria-hidden="true"></i>
+                        <h2 class="font-bold text-2xl mb-1">{{ voiture.nom }}</h2>
+                        <p class="text-gray-500 dark:text-gray-400">{{ voiture.marque.nom }}</p>
+                    </div>
+
+                    <div class="space-y-4">
+                        {# Prix #}
+                        <div class="flex justify-between items-center">
+                            <span class="font-medium text-gray-700 dark:text-gray-300">
+                                <i class="fa-solid fa-euro-sign text-primary-600 dark:text-primary-400 mr-2" aria-hidden="true"></i>
+                                Prix
+                            </span>
+                            <span class="text-xl font-bold text-primary-600 dark:text-primary-400">
+                                {% if voiture.prix %}
+                                    {{ voiture.prix|number_format(0, ',', ' ') }} €
+                                {% else %}
+                                    <span class="text-gray-400 italic text-sm">Non spécifié</span>
+                                {% endif %}
+                            </span>
+                        </div>
+
+                        {# État #}
+                        <div class="flex justify-between items-center">
+                            <span class="font-medium text-gray-700 dark:text-gray-300">
+                                <i class="fa-solid fa-star text-primary-600 dark:text-primary-400 mr-2" aria-hidden="true"></i>
+                                État
+                            </span>
+                            {% if voiture.etat == 'neuf' %}
+                                <span class="badge badge-success">Neuf</span>
+                            {% else %}
+                                <span class="badge badge-warning">Occasion</span>
+                            {% endif %}
+                        </div>
+
+                        {# Énergie #}
+                        <div class="flex justify-between items-center">
+                            <span class="font-medium text-gray-700 dark:text-gray-300">
+                                <i class="fa-solid fa-bolt text-primary-600 dark:text-primary-400 mr-2" aria-hidden="true"></i>
+                                Énergie
+                            </span>
+                            {% if voiture.energie %}
+                                <span class="badge badge-info">{{ voiture.energie.nom }}</span>
+                            {% else %}
+                                <span class="text-gray-400 italic">Non spécifié</span>
+                            {% endif %}
+                        </div>
+
+                        {# Année #}
+                        <div class="flex justify-between items-center">
+                            <span class="font-medium text-gray-700 dark:text-gray-300">
+                                <i class="fa-solid fa-calendar text-primary-600 dark:text-primary-400 mr-2" aria-hidden="true"></i>
+                                Année
+                            </span>
+                            <span>{{ voiture.annee ?? 'N/A' }}</span>
+                        </div>
+
+                        {# Consommation #}
+                        <div class="flex justify-between items-center">
+                            <span class="font-medium text-gray-700 dark:text-gray-300">
+                                <i class="fa-solid fa-gas-pump text-primary-600 dark:text-primary-400 mr-2" aria-hidden="true"></i>
+                                Consommation
+                            </span>
+                            <span>
+                                {% if voiture.consommation %}
+                                    {{ voiture.consommation }}
+                                    {% if voiture.energie and voiture.energie.id == 4 %}
+                                        kWh
+                                    {% else %}
+                                        L/100km
+                                    {% endif %}
+                                {% else %}
+                                    <span class="text-gray-400 italic">N/A</span>
+                                {% endif %}
+                            </span>
+                        </div>
+
+                        {# Kilométrage #}
+                        <div class="flex justify-between items-center">
+                            <span class="font-medium text-gray-700 dark:text-gray-300">
+                                <i class="fa-solid fa-road text-primary-600 dark:text-primary-400 mr-2" aria-hidden="true"></i>
+                                Kilométrage
+                            </span>
+                            <span>
+                                {% if voiture.etat == "occasion" and voiture.kilometrage %}
+                                    {{ voiture.kilometrage|number_format(0, ',', ' ') }} km
+                                {% else %}
+                                    <span class="text-gray-400 italic">N/A</span>
+                                {% endif %}
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
+                        <a href="{{ path('voiture_show', {'id': voiture.id}) }}"
+                           class="btn btn-primary w-full"
+                           aria-label="Voir les détails de {{ voiture.nom }}">
+                            <i class="fa-solid fa-eye mr-2" aria-hidden="true"></i>
+                            Voir les détails
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        {# Desktop View - Comparison Table (hidden on mobile) #}
+        <div class="hidden md:block card overflow-hidden p-0">
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead class="bg-gray-50 dark:bg-gray-900">
+                        <tr>
+                            <th class="px-6 py-4 text-left text-sm font-semibold text-gray-600 dark:text-gray-300 w-1/4">
+                                Caractéristique
+                            </th>
+                            {% for voiture in voitures %}
+                                <th class="px-6 py-4 text-center border-l border-gray-200 dark:border-gray-700">
+                                    <div class="flex flex-col items-center">
+                                        <i class="fa-solid fa-car text-4xl text-primary-600 dark:text-primary-400 mb-3" aria-hidden="true"></i>
+                                        <div class="font-bold text-lg">{{ voiture.nom }}</div>
+                                        <div class="text-sm font-normal text-gray-500 dark:text-gray-400">{{ voiture.marque.nom }}</div>
+                                    </div>
+                                </th>
+                            {% endfor %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {# Prix #}
+                        <tr class="border-t border-gray-200 dark:border-gray-700">
+                            <td class="px-6 py-4 font-medium bg-gray-50 dark:bg-gray-900">
+                                <i class="fa-solid fa-euro-sign text-primary-600 dark:text-primary-400 mr-2"></i>
+                                Prix
+                            </td>
+                            {% for voiture in voitures %}
+                                <td class="px-6 py-4 text-center border-l border-gray-200 dark:border-gray-700">
+                                    {% if voiture.prix %}
+                                        <span class="text-2xl font-bold text-primary-600 dark:text-primary-400">
+                                            {{ voiture.prix|number_format(0, ',', ' ') }} €
+                                        </span>
+                                    {% else %}
+                                        <span class="text-gray-400 italic">Non spécifié</span>
+                                    {% endif %}
+                                </td>
+                            {% endfor %}
+                        </tr>
+
+                        {# État #}
+                        <tr class="border-t border-gray-200 dark:border-gray-700">
+                            <td class="px-6 py-4 font-medium bg-gray-50 dark:bg-gray-900">
+                                <i class="fa-solid fa-star text-primary-600 dark:text-primary-400 mr-2"></i>
+                                État
+                            </td>
+                            {% for voiture in voitures %}
+                                <td class="px-6 py-4 text-center border-l border-gray-200 dark:border-gray-700">
+                                    {% if voiture.etat == 'neuf' %}
+                                        <span class="badge badge-success">Neuf</span>
+                                    {% else %}
+                                        <span class="badge badge-warning">Occasion</span>
+                                    {% endif %}
+                                </td>
+                            {% endfor %}
+                        </tr>
+
+                        {# Énergie #}
+                        <tr class="border-t border-gray-200 dark:border-gray-700">
+                            <td class="px-6 py-4 font-medium bg-gray-50 dark:bg-gray-900">
+                                <i class="fa-solid fa-bolt text-primary-600 dark:text-primary-400 mr-2"></i>
+                                Énergie
+                            </td>
+                            {% for voiture in voitures %}
+                                <td class="px-6 py-4 text-center border-l border-gray-200 dark:border-gray-700">
+                                    {% if voiture.energie %}
+                                        <span class="badge badge-info">{{ voiture.energie.nom }}</span>
+                                    {% else %}
+                                        <span class="text-gray-400 italic">Non spécifié</span>
+                                    {% endif %}
+                                </td>
+                            {% endfor %}
+                        </tr>
+
+                        {# Année #}
+                        <tr class="border-t border-gray-200 dark:border-gray-700">
+                            <td class="px-6 py-4 font-medium bg-gray-50 dark:bg-gray-900">
+                                <i class="fa-solid fa-calendar text-primary-600 dark:text-primary-400 mr-2"></i>
+                                Année
+                            </td>
+                            {% for voiture in voitures %}
+                                <td class="px-6 py-4 text-center border-l border-gray-200 dark:border-gray-700">
+                                    {{ voiture.annee ?? 'N/A' }}
+                                </td>
+                            {% endfor %}
+                        </tr>
+
+                        {# Consommation #}
+                        <tr class="border-t border-gray-200 dark:border-gray-700">
+                            <td class="px-6 py-4 font-medium bg-gray-50 dark:bg-gray-900">
+                                <i class="fa-solid fa-gas-pump text-primary-600 dark:text-primary-400 mr-2"></i>
+                                Consommation
+                            </td>
+                            {% for voiture in voitures %}
+                                <td class="px-6 py-4 text-center border-l border-gray-200 dark:border-gray-700">
+                                    {% if voiture.consommation %}
+                                        {{ voiture.consommation }} 
+                                        {% if voiture.energie and voiture.energie.id == 4 %}
+                                            kWh
+                                        {% else %}
+                                            L/100km
+                                        {% endif %}
+                                    {% else %}
+                                        <span class="text-gray-400 italic">N/A</span>
+                                    {% endif %}
+                                </td>
+                            {% endfor %}
+                        </tr>
+
+                        {# Kilométrage #}
+                        <tr class="border-t border-gray-200 dark:border-gray-700">
+                            <td class="px-6 py-4 font-medium bg-gray-50 dark:bg-gray-900">
+                                <i class="fa-solid fa-road text-primary-600 dark:text-primary-400 mr-2"></i>
+                                Kilométrage
+                            </td>
+                            {% for voiture in voitures %}
+                                <td class="px-6 py-4 text-center border-l border-gray-200 dark:border-gray-700">
+                                    {% if voiture.etat == "occasion" and voiture.kilometrage %}
+                                        {{ voiture.kilometrage|number_format(0, ',', ' ') }} km
+                                    {% else %}
+                                        <span class="text-gray-400 italic">N/A</span>
+                                    {% endif %}
+                                </td>
+                            {% endfor %}
+                        </tr>
+
+                        {# Actions #}
+                        <tr class="border-t border-gray-200 dark:border-gray-700">
+                            <td class="px-6 py-4 font-medium bg-gray-50 dark:bg-gray-900">
+                                Actions
+                            </td>
+                            {% for voiture in voitures %}
+                                <td class="px-6 py-4 text-center border-l border-gray-200 dark:border-gray-700">
+                                    <a href="{{ path('voiture_show', {'id': voiture.id}) }}" class="btn btn-primary btn-sm">
+                                        <i class="fa-solid fa-eye mr-2"></i>
+                                        Voir détails
+                                    </a>
+                                </td>
+                            {% endfor %}
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        {# Change Selection Button #}
+        <div class="mt-6 text-center">
+            <a href="{{ path('voiture_comparison') }}" class="btn btn-secondary">
+                <i class="fa-solid fa-rotate mr-2"></i>
+                Changer la sélection
+            </a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

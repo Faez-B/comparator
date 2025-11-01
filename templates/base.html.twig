@@ -1,27 +1,43 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr" class="h-full">
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
-        {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{% block title %}Comparator{% endblock %} - Comparaison intelligente</title>
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔍</text></svg>">
+        
+        {# Modern CSS with Tailwind #}
         <link href="{{ asset('css/output.css') }}" rel="stylesheet">
-        <link href="{{ asset('css/main.css') }}" rel="stylesheet">
-        <link href="{{ asset('css/responsive.css') }}" rel="stylesheet">
-
+        
+        {# Font Awesome for icons #}
         <script src="https://kit.fontawesome.com/ab6d801c6b.js" crossorigin="anonymous"></script>
-        <script src="{{ asset('js/jquery.js') }}"></script>
-        <script src="{{ asset('js/main.js') }}"></script>
-        {% block stylesheets %}
-            {{ encore_entry_link_tags('app') }}
-        {% endblock %}
-
-        {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
-        {% endblock %}
+        
+        {% block stylesheets %}{% endblock %}
     </head>
-    <body class="container mx-auto px-4 h-screen text-slate-500 dark:text-slate-200 dark:bg-slate-700">
+    <body class="h-full bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 antialiased">
+        {# Modern Navbar #}
         {% include "navbar.html.twig" %}
-        {% block body %}{% endblock %}
+        
+        {# Flash Messages #}
+        {% include "_flash_messages.html.twig" %}
+        
+        {# Main Content #}
+        <main class="min-h-[calc(100vh-64px)]">
+            {% block body %}{% endblock %}
+        </main>
+        
+        {# Footer #}
+        <footer class="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 py-6 mt-12">
+            <div class="page-container">
+                <div class="text-center text-sm text-gray-600 dark:text-gray-400">
+                    <p>&copy; {{ 'now'|date('Y') }} Comparator. Tous droits réservés.</p>
+                    <p class="mt-2">Plateforme de comparaison intelligente pour véhicules et appareils.</p>
+                </div>
+            </div>
+        </footer>
+        
+        {# Modern JavaScript #}
+        <script src="{{ asset('js/main.js') }}" defer></script>
+        {% block javascripts %}{% endblock %}
     </body>
 </html>

@@ -1,57 +1,185 @@
-<nav class="p-2 relative">
-    {% if not app.user %}
-        <div class="text-right">
-            <a href="{{ path('login') }}">
-                <button class="
-                bg-green-600 
-                text-white 
-                p-1 px-2  
-                rounded-md
-                border-2 border-green-600 
-                hover:bg-white hover:text-green-600
-                ">
-                Se connecter
-                </button>
-            </a>
-
-            <a href="{{ path('register') }}">
-                <button class="
-                bg-blue-600 
-                text-white 
-                p-1 px-2  
-                rounded-md
-                border-2 border-blue-600 
-                hover:bg-white hover:text-blue-600
-                ">
-                S'enregistrer
-                </button>
-            </a>
-        </div>
-
-        {% for message in app.flashes('success_register') %}
-            <div class="flash-message w-4/5 absolute bg-green-500 p-5 text-white top-0 left-2/4 -translate-x-1/2 flex justify-between items-center w-full">
-                <div class="flash-notice">
-                    {{ message }}
-                </div>
-
-                <span class="croix cursor-pointer">X</span>
+<nav class="navbar sticky top-0 z-50" role="navigation" aria-label="Navigation principale">
+    <div class="page-container">
+        <div class="flex items-center justify-between h-16">
+            {# Logo and Brand #}
+            <div class="flex items-center">
+                <a href="{{ path('index') }}" class="flex items-center space-x-2" aria-label="Retour à l'accueil">
+                    <span class="text-2xl" aria-hidden="true">🔍</span>
+                    <span class="text-xl font-bold bg-gradient-to-r from-primary-600 to-accent-600 bg-clip-text text-transparent">
+                        Comparator
+                    </span>
+                </a>
             </div>
-        {% endfor %}
 
-    {% else %}
-        <div class="text-right">
-            <a href="{{ path('logout') }}">
-                <button class="
-                bg-red-600 
-                text-white 
-                p-1 px-2  
-                border-2 border-red-600 
-                rounded-md
-                hover:bg-white hover:text-red-600
-                ">
-                Déconnexion
+            {# Navigation Links (for authenticated users) - Desktop #}
+            {% if app.user %}
+                <div class="hidden md:flex items-center space-x-1">
+                    <a href="{{ path('index') }}" class="navbar-link" aria-label="Page d'accueil">
+                        <i class="fa-solid fa-home mr-2" aria-hidden="true"></i>Accueil
+                    </a>
+                    <a href="{{ path('voiture_index') }}" class="navbar-link" aria-label="Catalogue de voitures">
+                        <i class="fa-solid fa-car mr-2" aria-hidden="true"></i>Voitures
+                    </a>
+                    <a href="{{ path('voiture_comparison') }}" class="navbar-link" aria-label="Comparer des voitures">
+                        <i class="fa-solid fa-code-compare mr-2" aria-hidden="true"></i>Comparer
+                    </a>
+                    <a href="{{ path('marque_index') }}" class="navbar-link" aria-label="Gérer les marques">
+                        <i class="fa-solid fa-tag mr-2" aria-hidden="true"></i>Marques
+                    </a>
+                    <a href="{{ path('energie_index') }}" class="navbar-link" aria-label="Gérer les énergies">
+                        <i class="fa-solid fa-bolt mr-2" aria-hidden="true"></i>Énergies
+                    </a>
+                </div>
+            {% endif %}
+
+            {# User Menu #}
+            <div class="flex items-center space-x-3">
+                {# Dark Mode Toggle #}
+                <button id="darkModeToggle"
+                        class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                        title="Changer le thème"
+                        aria-label="Basculer entre le mode clair et sombre">
+                    <i class="fa-solid fa-moon dark:hidden" aria-hidden="true"></i>
+                    <i class="fa-solid fa-sun hidden dark:inline" aria-hidden="true"></i>
                 </button>
-            </a>
+
+                {% if app.user %}
+                    {# User Badge #}
+                    <div class="hidden md:flex items-center space-x-2 px-3 py-2 bg-gray-100 dark:bg-gray-700 rounded-lg">
+                        <i class="fa-solid fa-user text-primary-600 dark:text-primary-400" aria-hidden="true"></i>
+                        <span class="text-sm font-medium">{{ app.user.email }}</span>
+                    </div>
+
+                    {# Mobile Menu Toggle #}
+                    <button id="mobileMenuToggle"
+                            class="md:hidden p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                            aria-label="Ouvrir le menu de navigation"
+                            aria-expanded="false"
+                            aria-controls="mobileMenu">
+                        <i class="fa-solid fa-bars text-xl" aria-hidden="true"></i>
+                    </button>
+
+                    {# Logout Button #}
+                    <a href="{{ path('logout') }}" class="hidden md:flex btn btn-secondary" aria-label="Se déconnecter">
+                        <i class="fa-solid fa-sign-out-alt mr-2" aria-hidden="true"></i>
+                        <span>Déconnexion</span>
+                    </a>
+                {% else %}
+                    {# Login and Register Buttons #}
+                    <a href="{{ path('login') }}" class="btn btn-outline" aria-label="Se connecter">
+                        <i class="fa-solid fa-sign-in-alt mr-2" aria-hidden="true"></i>
+                        Connexion
+                    </a>
+                    <a href="{{ path('register') }}" class="btn btn-primary" aria-label="Créer un compte">
+                        <i class="fa-solid fa-user-plus mr-2" aria-hidden="true"></i>
+                        <span class="hidden sm:inline">S'inscrire</span>
+                    </a>
+                {% endif %}
+            </div>
         </div>
-    {% endif %}
+
+        {# Mobile Menu (for authenticated users) #}
+        {% if app.user %}
+            <div id="mobileMenu"
+                 class="hidden md:hidden border-t border-gray-200 dark:border-gray-700 py-4"
+                 role="menu">
+                <div class="flex flex-col space-y-2">
+                    <a href="{{ path('index') }}" class="navbar-link justify-start" role="menuitem">
+                        <i class="fa-solid fa-home mr-2" aria-hidden="true"></i>Accueil
+                    </a>
+                    <a href="{{ path('voiture_index') }}" class="navbar-link justify-start" role="menuitem">
+                        <i class="fa-solid fa-car mr-2" aria-hidden="true"></i>Voitures
+                    </a>
+                    <a href="{{ path('voiture_comparison') }}" class="navbar-link justify-start" role="menuitem">
+                        <i class="fa-solid fa-code-compare mr-2" aria-hidden="true"></i>Comparer
+                    </a>
+                    <a href="{{ path('marque_index') }}" class="navbar-link justify-start" role="menuitem">
+                        <i class="fa-solid fa-tag mr-2" aria-hidden="true"></i>Marques
+                    </a>
+                    <a href="{{ path('energie_index') }}" class="navbar-link justify-start" role="menuitem">
+                        <i class="fa-solid fa-bolt mr-2" aria-hidden="true"></i>Énergies
+                    </a>
+
+                    {# User Info and Logout in Mobile #}
+                    <div class="pt-4 mt-4 border-t border-gray-200 dark:border-gray-700">
+                        <div class="flex items-center space-x-2 px-3 py-2 bg-gray-100 dark:bg-gray-700 rounded-lg mb-3">
+                            <i class="fa-solid fa-user text-primary-600 dark:text-primary-400" aria-hidden="true"></i>
+                            <span class="text-sm font-medium">{{ app.user.email }}</span>
+                        </div>
+                        <a href="{{ path('logout') }}" class="btn btn-danger w-full" role="menuitem">
+                            <i class="fa-solid fa-sign-out-alt mr-2" aria-hidden="true"></i>
+                            Déconnexion
+                        </a>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
 </nav>
+
+<script>
+    // Dark mode toggle
+    const darkModeToggle = document.getElementById('darkModeToggle');
+    const html = document.documentElement;
+
+    // Check for saved theme preference or default to system preference
+    const currentTheme = localStorage.getItem('theme') ||
+        (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+
+    if (currentTheme === 'dark') {
+        html.classList.add('dark');
+    }
+
+    if (darkModeToggle) {
+        darkModeToggle.addEventListener('click', () => {
+            html.classList.toggle('dark');
+            const theme = html.classList.contains('dark') ? 'dark' : 'light';
+            localStorage.setItem('theme', theme);
+        });
+    }
+
+    // Mobile menu toggle
+    const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+    const mobileMenu = document.getElementById('mobileMenu');
+
+    if (mobileMenuToggle && mobileMenu) {
+        mobileMenuToggle.addEventListener('click', () => {
+            const isHidden = mobileMenu.classList.contains('hidden');
+
+            if (isHidden) {
+                mobileMenu.classList.remove('hidden');
+                mobileMenuToggle.setAttribute('aria-expanded', 'true');
+                mobileMenuToggle.setAttribute('aria-label', 'Fermer le menu de navigation');
+                mobileMenuToggle.querySelector('i').classList.replace('fa-bars', 'fa-times');
+            } else {
+                mobileMenu.classList.add('hidden');
+                mobileMenuToggle.setAttribute('aria-expanded', 'false');
+                mobileMenuToggle.setAttribute('aria-label', 'Ouvrir le menu de navigation');
+                mobileMenuToggle.querySelector('i').classList.replace('fa-times', 'fa-bars');
+            }
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', (event) => {
+            const isClickInsideMenu = mobileMenu.contains(event.target);
+            const isClickOnToggle = mobileMenuToggle.contains(event.target);
+
+            if (!isClickInsideMenu && !isClickOnToggle && !mobileMenu.classList.contains('hidden')) {
+                mobileMenu.classList.add('hidden');
+                mobileMenuToggle.setAttribute('aria-expanded', 'false');
+                mobileMenuToggle.setAttribute('aria-label', 'Ouvrir le menu de navigation');
+                mobileMenuToggle.querySelector('i').classList.replace('fa-times', 'fa-bars');
+            }
+        });
+
+        // Close mobile menu on window resize to desktop size
+        window.addEventListener('resize', () => {
+            if (window.innerWidth >= 768 && !mobileMenu.classList.contains('hidden')) {
+                mobileMenu.classList.add('hidden');
+                mobileMenuToggle.setAttribute('aria-expanded', 'false');
+                mobileMenuToggle.setAttribute('aria-label', 'Ouvrir le menu de navigation');
+                mobileMenuToggle.querySelector('i').classList.replace('fa-times', 'fa-bars');
+            }
+        });
+    }
+</script>

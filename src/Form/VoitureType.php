@@ -28,7 +28,7 @@ class VoitureType extends AbstractType
                     'placeholder' => 'Nom de la voiture',
                     'autocomplete' => true,
                     'autofocus' => true,
-                    'class' => 'px-5 py-3 rounded-full color-gris my-2'
+                    'class' => 'form-input my-2'
                 ]
             ])
             ->add('prix', MoneyType::class, [
@@ -37,8 +37,7 @@ class VoitureType extends AbstractType
                 'attr' => [
                     'placeholder' => 'Prix de la voiture',
                     'autocomplete' => true,
-                    'autofocus' => true,
-                    'class' => 'px-5 py-3 rounded-full text-slate-700 my-2 dark:text-slate-700'
+                    'class' => 'form-input my-2'
                 ]
             ])
             ->add('marque', EntityType::class, [
@@ -49,7 +48,7 @@ class VoitureType extends AbstractType
                         ->orderBy('m.nom', 'ASC');
                 },
                 'attr' => [
-                    'class' => 'px-5 py-3 dark:text-slate-200 dark:bg-slate-400'
+                    'class' => 'form-select my-2'
                 ]
             ])
             ->add('energie', EntityType::class, [
@@ -60,7 +59,7 @@ class VoitureType extends AbstractType
                         ->orderBy('e.nom', 'ASC');
                 },
                 'attr' => [
-                    'class' => 'px-5 py-3 dark:text-slate-200 dark:bg-slate-400'
+                    'class' => 'form-select my-2'
                 ]
             ])
             ->add('etat', ChoiceType::class, [
@@ -71,29 +70,28 @@ class VoitureType extends AbstractType
                     'Occasion' => 'Occasion',
                 ],
                 'attr' => [
-                    'class' => 'etat-change',
+                    'class' => 'etat-change'
                 ],
             ])
             ->add('consommation', NumberType::class, [
                 'attr' => [
                     'placeholder' => 'Consommation de la voiture',
                     'autocomplete' => true,
-                    'autofocus' => true,
-                    'class' => 'px-5 py-3 rounded-full text-gray-700 my-2 dark:text-gray-700'
+                    'class' => 'form-input my-2'
                 ]
             ])
             ->add('annee', IntegerType::class, [
                 'attr' => [
                     'placeholder' => 'Année de la voiture',
                     'autocomplete' => true,
-                    'autofocus' => true,
+                    'class' => 'form-input my-2'
                 ]
             ])
             ->add('kilometrage', IntegerType::class, [
                 'attr' => [
                     'placeholder' => 'Kilométrage de la voiture',
                     'autocomplete' => true,
-                    'autofocus' => true,
+                    'class' => 'form-input my-2'
                 ]
             ])
         ;

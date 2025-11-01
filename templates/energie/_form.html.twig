@@ -1,5 +1,9 @@
-{{ form_start(form) }}
-    {{ form_widget(form.nom, { "attr" : { "autofocus" : true, "autocomplete" : true, "placeholder" : "Nom de l'énergie" } }) }}
-
-    <button class="btn">{{ button_label|default('Créer') }}</button>
+{{ form_start(form, { 'attr': { 'class': 'my-4 max-w-lg mx-auto card' } }) }}
+    <div class="mb-4">
+        {{ form_label(form.nom, null, {'label_attr': {'class': 'form-label'}}) }}
+        {{ form_widget(form.nom, { 'attr': { 'class': 'form-input' } }) }}
+    </div>
+    <div class="text-center my-3">
+        <button class="btn btn-accent">{{ button_label|default('Créer') }}</button>
+    </div>
 {{ form_end(form) }}

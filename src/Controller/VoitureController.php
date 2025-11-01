@@ -50,29 +50,20 @@ class VoitureController extends AbstractController
         $conso = null;
         $sortType = null;
 
-        if (isset($_POST["energie"]) && $_POST["energie"]) {
-            $energie = $this->em->getRepository(Energie::class)->find((int)$_POST["energie"]);
+        $energieId = $request->request->get('energie');
+        if ($energieId) {
+            $energie = $this->em->getRepository(Energie::class)->find((int)$energieId);
         }
 
-        if (isset($_POST["marque"]) && $_POST["marque"]) {
-            $marque = $this->em->getRepository(Marque::class)->find((int)$_POST["marque"]);
+        $marqueId = $request->request->get('marque');
+        if ($marqueId) {
+            $marque = $this->em->getRepository(Marque::class)->find((int)$marqueId);
         }
 
-        if (isset($_POST["prixMax"]) && $_POST["prixMax"]) {
-            $prixMax = $_POST["prixMax"];
-        }
-
-        if (isset($_POST["etat"]) && $_POST["etat"]) {
-            $etat = $_POST["etat"];
-        }
-
-        if (isset($_POST["conso"]) && $_POST["conso"]) {
-            $conso = $_POST["conso"];
-        }
-
-        if (isset($_POST["sortType"]) && $_POST["sortType"]) {
-            $sortType = $_POST["sortType"];
-        }
+        $prixMax = $request->request->get('prixMax');
+        $etat = $request->request->get('etat');
+        $conso = $request->request->get('conso');
+        $sortType = $request->request->get('sortType');
 
         return $this->render('voiture/_index_body.html.twig', [
             'voitures' => $this->em->getRepository(Voiture::class)->search($marque, $energie, $prixMax, $etat, $conso, $sortType),
@@ -90,49 +81,14 @@ class VoitureController extends AbstractController
         $form = $this->createForm(VoitureType::class, $voiture);
         $form->handleRequest($request);
 
-        $marques = $this->em->getRepository(Marque::class)->findAllAsc();
-        $energies = $this->em->getRepository(Energie::class)->findAll();
-
         if ($form->isSubmitted() && $form->isValid()) {
-            $voitureRepository->add($voiture, false);
-
-            // !!! Il faut que la marque, l'état et l'énergie soient obligatoires dans le formulaire !!!
-            // Mettre en place un TEST pour vérifier que la marque et l'énergie sont bien renseignées
-
-            // Enlever les if pour les champs
-            // => il doivent être gérer dans le formulaire (Form)
-            if ($_POST["marque"]) {
-                $marque = $this->em->getRepository(Marque::class)->find($_POST["marque"]);
-                $voiture->setMarque($marque);
-            }
-
-            if ($_POST['energie']) {
-                $energie = $this->em->getRepository(Energie::class)->find($_POST['energie']);
-                $voiture->setEnergie($energie);
-            }
-
-            if (isset($_POST['etat'])) {
-                $voiture->setEtat($_POST['etat']);
-            }
-
-            if (isset($_POST['annee']) && $_POST['annee']) {
-                $voiture->setAnnee($_POST['annee']);
-            }
-
-            if (isset($_POST['kilometrage']) && $_POST['kilometrage']) {
-                $voiture->setKilometrage($_POST['kilometrage']);
-            }
-
-            $this->em->persist($voiture);
-            $this->em->flush();
+            $voitureRepository->add($voiture, true);
 
             return $this->redirectToRoute('voiture_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('voiture/new.html.twig', [
             'voiture' => $voiture,
-            'marques' => $marques,
-            'energies' => $energies,
             'form' => $form,
         ]);
     }
@@ -151,40 +107,14 @@ class VoitureController extends AbstractController
         $form = $this->createForm(VoitureType::class, $voiture);
         $form->handleRequest($request);
 
-        $marques = $this->em->getRepository(Marque::class)->findAllAsc();
-        $energies = $this->em->getRepository(Energie::class)->findAll();
-
         if ($form->isSubmitted() && $form->isValid()) {
-            $voitureRepository->add($voiture, false);
-
-            // Enlever les if pour les champs
-            // => il doivent être gérer dans le formulaire (Form)
-            if ($_POST["marque"]) {
-                $marque = $this->em->getRepository(Marque::class)->find($_POST["marque"]);
-                $voiture->setMarque($marque);
-            }
-
-            if ($_POST['energie']) {
-                $energie = $this->em->getRepository(Energie::class)->find($_POST['energie']);
-                $voiture->setEnergie($energie);
-            }
-
-            if (isset($_POST['etat'])) {
-                $voiture->setEtat($_POST['etat']);
-            }
-
-            $this->em->persist($voiture);
-            $this->em->flush();
-
-            // dd($voiture);
+            $voitureRepository->add($voiture, true);
 
             return $this->redirectToRoute('voiture_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('voiture/edit.html.twig', [
             'voiture' => $voiture,
-            'marques' => $marques,
-            'energies' => $energies,
             'form' => $form,
         ]);
     }

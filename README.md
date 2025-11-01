@@ -35,4 +35,3 @@ Start the server
 ```bash
   symfony serve
 ```
-

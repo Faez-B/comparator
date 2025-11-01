@@ -1,75 +1,84 @@
 {% for voiture in voitures %}
-    <tr class="border-spacing-1.5 odd:bg-white even:bg-slate-100 dark:odd:bg-slate-200 dark:even:bg-slate-300 text-gray-400">
-        <td class="py-1.5 border-r-2">{{ voiture.nom }}</td>
-        <td class="py-1.5 border-r-2">{{ voiture.prix }}</td>
-        {% if voiture.energie %}
-            <td class="py-1.5 border-r-2">{{ voiture.energie.nom }}</td>
-        {% else %}
-            <td class="italic text-gray-400 py-1.5 border-r-2">Non spécifié</td>
-        {% endif %}
-        <td class="py-1.5 border-r-2">{{ voiture.marque.nom }}</td>
-        <td class="py-1.5 border-r-2">{{ voiture.etat|capitalize }}</td>
-        {% if voiture.annee %}
-            <td class="py-1.5 border-r-2">{{ voiture.annee }}</td>
-        {% else %}
-            <td class="italic text-gray-400 py-1.5 border-r-2">Non spécifié</td>
-        {% endif %}
-        <td class="py-1.5 border-r-2">
+    <tr>
+        <td class="font-medium">{{ voiture.nom }}</td>
+        <td>
+            {% if voiture.prix %}
+                <span class="font-semibold text-primary-600 dark:text-primary-400">{{ voiture.prix|number_format(0, ',', ' ') }} €</span>
+            {% else %}
+                <span class="text-gray-400 dark:text-gray-500 italic">Non spécifié</span>
+            {% endif %}
+        </td>
+        <td>
+            {% if voiture.energie %}
+                <span class="badge badge-info">{{ voiture.energie.nom }}</span>
+            {% else %}
+                <span class="text-gray-400 dark:text-gray-500 italic">Non spécifié</span>
+            {% endif %}
+        </td>
+        <td>{{ voiture.marque.nom }}</td>
+        <td>
+            {% if voiture.etat == 'neuf' %}
+                <span class="badge badge-success">Neuf</span>
+            {% else %}
+                <span class="badge badge-warning">Occasion</span>
+            {% endif %}
+        </td>
+        <td>
+            {% if voiture.annee %}
+                {{ voiture.annee }}
+            {% else %}
+                <span class="text-gray-400 dark:text-gray-500 italic">N/A</span>
+            {% endif %}
+        </td>
+        <td>
             {% if voiture.consommation %}
-            
                 {{ voiture.consommation }} 
-
                 {% if voiture.energie.id == 4 %}
                     kWh
                 {% else %}
-                    L/100 km
+                    L/100km
                 {% endif %}
             {% else %}
-                <span class="italic text-gray-400">Non spécifié</span>
+                <span class="text-gray-400 dark:text-gray-500 italic">N/A</span>
             {% endif %}
         </td>
-        {% if voiture.etat == "occasion" %}
-            {% if voiture.kilometrage %}
-                <td class="py-1.5 border-r-2">{{ voiture.kilometrage }}</td>
+        <td>
+            {% if voiture.etat == "occasion" and voiture.kilometrage %}
+                {{ voiture.kilometrage|number_format(0, ',', ' ') }} km
             {% else %}
-                <td class="italic text-gray-400 py-1.5 border-r-2">Non spécifié</td>
+                <span class="text-gray-400 dark:text-gray-500 italic">N/A</span>
             {% endif %}
-
-        {% else %}
-            <td class="py-1.5 italic text-gray-400 border-r-2">/</td>
-        {% endif %}
-        <td class="italic text-gray-400 py-1.5 border-r-2">{{ voiture.lastUpdate|date("d/m/Y") }}</td>
-        <td class="py-1.5">
-            <a href="{{ path('voiture_show', {'id': voiture.id}) }}" class="
-            bg-blue-500 
-            text-white 
-            p-1 px-2  
-            border-2 border-blue-500 
-            hover:bg-white hover:text-blue-500 
-            w-full 
-            block
-            my-1.5
-            lg:m-0
-            lg:inline-block
-            lg:w-max">Détails</a>
-            {% if is_granted("ROLE_ADMIN") %}
-                <a href="{{ path('voiture_edit', {'id': voiture.id}) }}" class="
-                bg-yellow-500 
-                text-white 
-                p-1 px-2  
-                border-2 border-yellow-500 
-                hover:bg-white hover:text-yellow-500 
-                w-full 
-                block
-                my-1.5
-                lg:m-0
-                lg:inline-block
-                lg:w-max">Modifier</a>
-            {% endif %}
+        </td>
+        <td>
+            <span class="text-sm text-gray-500 dark:text-gray-400">{{ voiture.lastUpdate|date("d/m/Y") }}</span>
+        </td>
+        <td>
+            <div class="flex space-x-2">
+                <a href="{{ path('voiture_show', {'id': voiture.id}) }}"
+                   class="btn btn-secondary btn-sm"
+                   title="Voir les détails"
+                   aria-label="Voir les détails de {{ voiture.nom }}">
+                    <i class="fa-solid fa-eye"></i>
+                </a>
+                {% if is_granted("ROLE_ADMIN") %}
+                    <a href="{{ path('voiture_edit', {'id': voiture.id}) }}"
+                       class="btn btn-warning btn-sm"
+                       title="Modifier"
+                       aria-label="Modifier {{ voiture.nom }}">
+                        <i class="fa-solid fa-pen"></i>
+                    </a>
+                {% endif %}
+            </div>
         </td>
     </tr>
 {% else %}
     <tr>
-        <td colspan="100%">Aucun résultat</td>
+        <td colspan="10" class="text-center py-12">
+            <div class="flex flex-col items-center justify-center text-gray-500 dark:text-gray-400">
+                <i class="fa-solid fa-inbox text-5xl mb-4 opacity-50"></i>
+                <p class="text-lg font-medium">Aucune voiture trouvée</p>
+                <p class="text-sm">Essayez de modifier vos critères de recherche</p>
+            </div>
+        </td>
     </tr>
 {% endfor %}

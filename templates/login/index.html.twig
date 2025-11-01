@@ -1,41 +1,83 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Formulaire de connexion{% endblock %}
+{% block title %}Connexion{% endblock %}
 
 {% block body %}
-    <div class="login">
-        {% if error %}
-            <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-        {% endif %}
+    <div class="page-container max-w-md mx-auto">
+        <div class="card">
+            <div class="mb-6">
+                <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+                    <i class="fas fa-sign-in-alt text-primary-600 dark:text-primary-400"></i>
+                    Connexion
+                </h1>
+                <p class="text-gray-600 dark:text-gray-400">
+                    Connectez-vous à votre compte
+                </p>
+            </div>
 
-        <form action="{{ path('login') }}" method="post">
-            <fieldset class="border border-gray-500 dark:border-slate-500">
-                <legend class="px-3 text-gray-500 dark:text-slate-400">Connexion</legend>
+            {% if error %}
+                <div class="mb-6 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg" role="alert">
+                    <div class="flex items-center">
+                        <i class="fas fa-exclamation-circle text-red-600 dark:text-red-400 mr-2"></i>
+                        <p class="text-sm text-red-800 dark:text-red-300">
+                            {{ error.messageKey|trans(error.messageData, 'security') }}
+                        </p>
+                    </div>
+                </div>
+            {% endif %}
 
-                <div class="relative z-0 mb-6 w-full group">
-                    <input type="email" name="_username" value="{{ last_username }}" id="username" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
-                    <label for="_username" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Adresse mail</label>
+            <form action="{{ path('login') }}" method="post">
+                <div class="mb-4">
+                    <label for="username" class="form-label">
+                        <i class="fas fa-envelope mr-1"></i>
+                        Adresse email
+                    </label>
+                    <input
+                        type="email"
+                        name="_username"
+                        value="{{ last_username }}"
+                        id="username"
+                        class="form-input"
+                        placeholder="votre@email.com"
+                        required
+                        autocomplete="email"
+                        aria-label="Adresse email"
+                    />
                 </div>
 
-                <div class="relative z-0 mb-6 w-full group">
-                    <input type="password" name="_password" id="password" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
-                    <label for="_password" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Mot de passe</label>
+                <div class="mb-6">
+                    <label for="password" class="form-label">
+                        <i class="fas fa-lock mr-1"></i>
+                        Mot de passe
+                    </label>
+                    <input
+                        type="password"
+                        name="_password"
+                        id="password"
+                        class="form-input"
+                        placeholder="••••••••"
+                        required
+                        autocomplete="current-password"
+                        aria-label="Mot de passe"
+                    />
                 </div>
 
                 <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
-                <div class="mt-2 text-center">
-                    <button type="submit" class="
-                    bg-lime-500 
-                    text-white 
-                    p-1 px-2 rounded-md 
-                    border-2 border-lime-500 
-                    hover:bg-white hover:text-lime-500
-                    ">Connexion</button>
+                <div class="flex flex-col gap-3">
+                    <button type="submit" class="btn btn-primary w-full">
+                        <i class="fas fa-sign-in-alt mr-2"></i>
+                        Se connecter
+                    </button>
+
+                    <div class="text-center text-sm text-gray-600 dark:text-gray-400">
+                        Pas encore de compte ?
+                        <a href="{{ path('register') }}" class="text-primary-600 dark:text-primary-400 hover:underline font-medium">
+                            Créer un compte
+                        </a>
+                    </div>
                 </div>
-            </fieldset>
-        </form>
-
-
+            </form>
+        </div>
     </div>
 {% endblock %}

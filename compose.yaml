@@ -6,39 +6,46 @@ services:
       - ./:/var/www/symfony
     networks:
       - symfony
+    depends_on:
+      database:
+        condition: service_healthy
 
   database:
     image: mysql:8.4
-    container_name: database
+    container_name: database_comparator
     environment:
       MYSQL_ROOT_PASSWORD: symfony
       MYSQL_DATABASE: symfony
       MYSQL_USER: symfony
       MYSQL_PASSWORD: symfony
     ports:
-      - 3306
+      - '3306:3306'
     volumes:
-      - ./docker/volumes/data:/var/lib/mysql
-      # - ./docker/conf/mysql/my.cnf:/etc/mysql/conf.d/my.cnf
+      - db_data:/var/lib/mysql
     networks:
       - symfony
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-psymfony"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
 
   phpmyadmin:
     image: phpmyadmin:5.2
-    container_name: phpmyadmin
+    container_name: phpmyadmin_comparator
     environment:
-        PMA_HOST: database
-        PMA_PORT: 3306
-        MYSQL_ROOT_PASSWORD: symfony
+      PMA_HOST: database
+      PMA_PORT: 3306
+      MYSQL_ROOT_PASSWORD: symfony
     ports:
-        - '8080:80'
+      - '8080:80'
     depends_on:
-        - database
+      - database
     networks:
       - symfony
 
 volumes:
-  data:
+  db_data:
 
 networks:
   symfony:

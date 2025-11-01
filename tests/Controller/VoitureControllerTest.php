@@ -4,6 +4,7 @@ namespace App\Test\Controller;
 
 use App\Entity\Marque;
 use App\Entity\Voiture;
+use App\Repository\UserRepository;
 use App\Repository\VoitureRepository;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -12,16 +13,26 @@ class VoitureControllerTest extends WebTestCase
 {
     private KernelBrowser $client;
     private VoitureRepository $repository;
+    // private MarqueRepository $marqueRepository;
     private string $path = '/voiture/';
 
     protected function setUp(): void
     {
         $this->client = static::createClient();
         $this->repository = (static::getContainer()->get('doctrine'))->getRepository(Voiture::class);
+        // $this->marqueRepository = (static::getContainer()->get('doctrine'))->getRepository(Marque::class);
 
         foreach ($this->repository->findAll() as $object) {
             $this->repository->remove($object, true);
         }
+
+        $userRepository = static::getContainer()->get(UserRepository::class);
+
+        // retrieve the test user
+        $testUser = $userRepository->findOneByEmail('test@test.com');
+
+        // simulate $testUser being logged in
+        $this->client->loginUser($testUser);
     }
 
     public function testIndex(): void
@@ -39,15 +50,18 @@ class VoitureControllerTest extends WebTestCase
     {
         $originalNumObjectsInRepository = count($this->repository->findAll());
 
-        $this->markTestIncomplete();
         $this->client->request('GET', sprintf('%snew', $this->path));
 
         self::assertResponseStatusCodeSame(200);
 
-        $this->client->submitForm('Save', [
+        // $marque = new Marque();
+        // $marque->setNom('My Title');
+        // $this->marqueRepository->add($marque, true);
+
+        $this->client->submitForm('Créer', [
             'voiture[nom]' => 'Testing',
-            'voiture[prix]' => 'Testing',
-            'voiture[marque]' => 'Testing',
+            'voiture[prix]' => 10.0,
+            // 'voiture[marque]' => (($this->marqueRepository->findAll())[0])->getId(),
         ]);
 
         self::assertResponseRedirects('/voiture/');
@@ -57,7 +71,6 @@ class VoitureControllerTest extends WebTestCase
 
     public function testShow(): void
     {
-        $this->markTestIncomplete();
 
         $marque = new Marque();
 
@@ -78,7 +91,6 @@ class VoitureControllerTest extends WebTestCase
 
     public function testEdit(): void
     {
-        $this->markTestIncomplete();
 
         $marque = new Marque();
 
@@ -93,7 +105,7 @@ class VoitureControllerTest extends WebTestCase
 
         $this->client->submitForm('Update', [
             'voiture[nom]' => 'Something New',
-            'voiture[prix]' => 'Something New',
+            'voiture[prix]' => 11.0,
             'voiture[marque]' => 'Something New',
         ]);
 
@@ -108,15 +120,15 @@ class VoitureControllerTest extends WebTestCase
 
     public function testRemove(): void
     {
-        $this->markTestIncomplete();
 
         $originalNumObjectsInRepository = count($this->repository->findAll());
 
         $marque = new Marque();
+        $marque->setNom('My Title');
 
         $fixture = new Voiture();
         $fixture->setNom('My Title');
-        $fixture->setPrix('My Title');
+        $fixture->setPrix(10.0);
         $fixture->setMarque($marque);
 
         $this->repository->add($fixture, true);

@@ -3,58 +3,62 @@
 {% block title %}Voiture : {{ voiture.nom }}{% endblock %}
 
 {% block body %}
-    <h1 class="text-center">{{ voiture.nom }}</h1>
-
-    <a href="{{ path('voiture_index') }}">
-        <button class="rounded-md outline outline-offset-1 outline-2 outline-blue-600 px-3 py-2 my-4 font-semibold leading-6 text-white hover:bg-blue-500">
+<div class="page-container">
+    <div class="flex items-center justify-between mb-4">
+        <h1 class="text-3xl md:text-4xl font-bold mb-2 flex items-center">
+            <i class="fa-solid fa-car text-primary-600 mr-2"></i>
+            {{ voiture.nom }}
+        </h1>
+        <a href="{{ path('voiture_index') }}" class="btn btn-secondary">
+            <i class="fa-solid fa-arrow-left mr-2"></i>
             Retour
-        </button>
-    </a>
-
-    <table class="table text-left">
-        <tbody>
-            <tr>
-                <th>Prix</th>
-                <td>{{ voiture.prix }}</td>
-            </tr>
-            <tr>
-                <th>Marque</th>
-                <td>{{ voiture.marque }}</td>
-            </tr>
-            <tr>
-                <th>Energie</th>
-                <td>{{ voiture.energie }}</td>
-            </tr>
-            <tr>
-                <th>Etat</th>
-                <td>{{ voiture.etat }}</td>
-            </tr>
-            <tr>
-                <th>Consommation</th>
-                <td>{{ voiture.consommation }}</td>
-            </tr>
-            <tr>
-                <th>Année</th>
-                <td>{{ voiture.annee }}</td>
-            </tr>
-            <tr>
-                <th>Kilométrage</th>
-                <td>{{ voiture.kilometrage }}</td>
-            </tr>
-            <tr>
-                <th>Dernière mise à jour</th>
-                <td>{{ voiture.lastUpdateString }}</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <div class="flex gap-3 my-4">
-        <a href="{{ path('voiture_edit', {'id': voiture.id}) }}">
-            <button class="rounded-md bg-blue-600 border border-1 border-blue-600 px-3 py-2 font-semibold leading-6 text-white hover:bg-white hover:text-blue-600">
-                Modifier
-            </button>
         </a>
-
-        {{ include('voiture/_delete_form.html.twig') }}
     </div>
+
+    <div class="card">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="flex flex-col">
+                <h2 class="text-xl font-semibold mb-4">Détails</h2>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <p class="text-sm text-gray-500">Marque</p>
+                        <p class="text-lg font-semibold">{{ voiture.marque }}</p>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-500">Énergie</p>
+                        <p class="text-lg font-semibold">{{ voiture.energie }}</p>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-500">État</p>
+                        <p class="text-lg font-semibold">{{ voiture.etat }}</p>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-500">Année</p>
+                        <p class="text-lg font-semibold">{{ voiture.annee }}</p>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-500">Kilométrage</p>
+                        <p class="text-lg font-semibold">{{ voiture.kilometrage }} km</p>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-500">Consommation</p>
+                        <p class="text-lg font-semibold">{{ voiture.consommation }} L/100km</p>
+                    </div>
+                </div>
+            </div>
+            <div class="flex flex-col">
+                <h2 class="text-xl font-semibold mb-4">Prix</h2>
+                <p class="text-4xl font-bold text-primary-600">{{ voiture.prix }} €</p>
+                <p class="text-sm text-gray-500 mt-2">Dernière mise à jour : {{ voiture.lastUpdateString }}</p>
+            </div>
+        </div>
+        <div class="flex gap-3 mt-6">
+            <a href="{{ path('voiture_edit', {'id': voiture.id}) }}" class="btn btn-primary">
+                <i class="fa-solid fa-pencil mr-2"></i>
+                Modifier
+            </a>
+            {{ include('voiture/_delete_form.html.twig') }}
+        </div>
+    </div>
+</div>
 {% endblock %}

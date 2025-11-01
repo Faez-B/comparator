@@ -1,33 +1,60 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Energie index{% endblock %}
+{% block title %}Énergies{% endblock %}
 
 {% block body %}
-    <h1>Energie index</h1>
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Nom</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for energie in energies %}
-            <tr>
-                <td>{{ energie.nom }}</td>
-                <td>
-                    <a href="{{ path('energie_show', {'id': energie.id}) }}">show</a>
-                    <a href="{{ path('energie_edit', {'id': energie.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="3">Aucun résultat</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('energie_new') }}">Créer</a>
+<div class="page-container">
+    <div class="flex items-center justify-between mb-4">
+        <h1 class="text-3xl md:text-4xl font-bold mb-2 flex items-center">
+            <i class="fa-solid fa-bolt text-accent-600 mr-2"></i>
+            Énergies
+        </h1>
+        <a href="{{ path('energie_new') }}" class="btn btn-accent">
+            <i class="fa-solid fa-plus mr-2"></i> Ajouter une énergie
+        </a>
+    </div>
+    <div class="card overflow-hidden p-0">
+        <div class="overflow-x-auto">
+            <table class="table-modern">
+                <thead>
+                    <tr>
+                        <th>Nom</th>
+                        <th class="w-36">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for energie in energies %}
+                    <tr>
+                        <td>
+                            <span class="font-medium">{{ energie.nom }}</span>
+                        </td>
+                        <td>
+                            <div class="flex space-x-2">
+                                <a href="{{ path('energie_show', {'id': energie.id}) }}"
+                                   class="btn btn-secondary btn-sm"
+                                   title="Voir les détails"
+                                   aria-label="Voir les détails de {{ energie.nom }}">
+                                    <i class="fa-solid fa-eye mr-1"></i>
+                                    Voir
+                                </a>
+                                <a href="{{ path('energie_edit', {'id': energie.id}) }}"
+                                   class="btn btn-warning btn-sm"
+                                   title="Modifier"
+                                   aria-label="Modifier {{ energie.nom }}">
+                                    <i class="fa-solid fa-pen mr-1"></i>
+                                    Modifier
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="2">Aucun résultat</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 {% endblock %}

@@ -1,13 +1,24 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Marque{% endblock %}
+{% block title %}Modifier la marque{% endblock %}
 
 {% block body %}
-    <h1>Edit Marque</h1>
+<div class="page-container">
+    <div class="flex items-center justify-between mb-4">
+        <h1 class="text-3xl md:text-4xl font-bold mb-2 flex items-center">
+            <i class="fa-solid fa-tag text-primary-600 mr-2"></i>
+            Modifier la marque
+        </h1>
+        <a href="{{ path('marque_index') }}" class="btn btn-secondary">
+            <i class="fa-solid fa-arrow-left mr-2"></i>
+            Retour
+        </a>
+    </div>
 
-    {{ include('marque/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ include('marque/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
 
-    <a href="{{ path('marque_index') }}">back to list</a>
-
-    {{ include('marque/_delete_form.html.twig') }}
+    <div class="text-center mt-4">
+        {{ include('marque/_delete_form.html.twig') }}
+    </div>
+</div>
 {% endblock %}

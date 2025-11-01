@@ -1,93 +1,131 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Voiture index{% endblock %}
+{% block title %}Voitures{% endblock %}
 
 {% block body %}
-    <h1 class="text-center my-3">Liste des voitures</h1>
-
-    <a href="{{ path('index') }}">
-        <button class="rounded-md outline outline-offset-1 outline-2 outline-blue-600 px-3 py-2 font-semibold leading-6 text-white hover:bg-blue-500">
-            Retour
-        </button>
-    </a>
-
-    <div class="my-3">
-        <a href="{{ path('voiture_new') }}" class="
-        inline-block
-        text-white 
-        p-2 
-        my-2
-        rounded-md
-        outline
-        outline-2
-        outline-lime-500
-        hover:bg-lime-500
-        ">Ajouter une voiture</a>
+<div class="page-container">
+    {# Header #}
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
+        <div>
+            <h1 class="text-4xl font-bold mb-2 flex items-center">
+                <i class="fa-solid fa-car text-primary-600 dark:text-primary-400 mr-3"></i>
+                Catalogue de voitures
+            </h1>
+            <p class="text-gray-600 dark:text-gray-400">Trouvez la voiture qui correspond à vos besoins</p>
+        </div>
+        <div class="flex space-x-3 mt-4 md:mt-0">
+            <a href="{{ path('index') }}" class="btn btn-secondary">
+                <i class="fa-solid fa-arrow-left mr-2"></i>
+                Retour
+            </a>
+            <a href="{{ path('voiture_new') }}" class="btn btn-accent">
+                <i class="fa-solid fa-plus mr-2"></i>
+                Ajouter une voiture
+            </a>
+        </div>
     </div>
 
-    <div class="columns-1 my-4 lg:columns-2">
-        <div class="">
+    {# Filters Section #}
+    <div class="card mb-8">
+        <h2 class="text-xl font-semibold mb-4 flex items-center">
+            <i class="fa-solid fa-filter text-primary-600 dark:text-primary-400 mr-2"></i>
+            Filtres de recherche
+        </h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            {# Energie Filter #}
             <div>
-                <select class="px-5 py-3 dark:text-slate-200 dark:bg-slate-400" name="energieAjax" id="energieAjax">
-                    <option value="">Choisissez une énergie</option>
+                <label for="energieAjax" class="form-label">
+                    <i class="fa-solid fa-bolt mr-1"></i>
+                    Énergie
+                </label>
+                <select class="form-select" name="energieAjax" id="energieAjax">
+                    <option value="">Toutes les énergies</option>
                     {% for energie in energies %}
                         <option value="{{ energie.id }}">{{ energie.nom }}</option>
                     {% endfor %}
                 </select>
             </div>
 
+            {# Marque Filter #}
             <div>
-                <select class="px-5 py-3 dark:text-slate-200 dark:bg-slate-400" name="marqueAjax" id="marqueAjax">
-                    <option value="">Choisissez une marque</option>
+                <label for="marqueAjax" class="form-label">
+                    <i class="fa-solid fa-tag mr-1"></i>
+                    Marque
+                </label>
+                <select class="form-select" name="marqueAjax" id="marqueAjax">
+                    <option value="">Toutes les marques</option>
                     {% for marque in marques %}
                         <option value="{{ marque.id }}">{{ marque.nom }}</option>
                     {% endfor %}
                 </select>
             </div>
 
+            {# Sort Filter #}
             <div>
-                <label for="prixAjax">Prix maximum (entre 0€ et {{ prixMax }}€) : </label>
-                <input type="range" id="prixAjax" name="prixAjax" min="0" max="{{ prixMax }}" step="500" value="0"> 
-                <span id="rangeValue">0</span>
-            </div>
-        </div>
-
-        <div class="">
-            <div>
-                <select class="px-5 py-33 dark:text-slate-200 dark:bg-slate-400" name="trie" id="trie">
-                    <option value="">Trier par</option>
+                <label for="trie" class="form-label">
+                    <i class="fa-solid fa-sort mr-1"></i>
+                    Trier par
+                </label>
+                <select class="form-select" name="trie" id="trie">
+                    <option value="">Sélectionner un tri</option>
                     <option value="alphabet">Alphabétique</option>
                     <option value="prixASC">Prix croissant</option>
                     <option value="prixDESC">Prix décroissant</option>
-                    {# <option value="consoElecASC">Consommation électrique croissante</option> #}
-                    {# <option value="consoElecDESC">Consommation électrique décroissante</option> #}
                 </select>
             </div>
 
-            <div>
-                <input type="checkbox" name="etatSelector" id="etatSelector">
-                <label for="etatSelector">Ne montrer que les voitures neuves</label>
+            {# State Filter #}
+            <div class="flex items-end">
+                <label class="flex items-center space-x-2 cursor-pointer">
+                    <input type="checkbox" name="etatSelector" id="etatSelector" 
+                           class="rounded border-gray-300 text-primary-600 focus:ring-primary-500">
+                    <span class="text-sm font-medium text-gray-700 dark:text-gray-300">
+                        Voitures neuves uniquement
+                    </span>
+                </label>
+            </div>
+        </div>
+
+        {# Price Range Filter #}
+        <div class="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+            <label for="prixAjax" class="form-label">
+                <i class="fa-solid fa-euro-sign mr-1"></i>
+                Prix maximum : <span id="rangeValue" class="font-bold text-primary-600 dark:text-primary-400">0</span> €
+            </label>
+            <input type="range" id="prixAjax" name="prixAjax" 
+                   min="0" max="{{ prixMax }}" step="500" value="0"
+                   class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"> 
+            <div class="flex justify-between text-xs text-gray-500 dark:text-gray-400 mt-1">
+                <span>0 €</span>
+                <span>{{ prixMax }} €</span>
             </div>
         </div>
     </div>
 
-    <table class="block overflow-auto border-2 lg:table" width="100%" id="voiture_index">
-        <thead align="center">
-            <tr>
-                <th class="border-r-2 border-b-2">Nom</th>
-                <th class="border-r-2 border-b-2">Prix (€)</th>
-                <th class="border-r-2 border-b-2">Énergie</th>
-                <th class="border-r-2 border-b-2">Marque</th>
-                <th class="border-r-2 border-b-2">État</th>
-                <th class="border-r-2 border-b-2">Année</th>
-                <th class="border-r-2 border-b-2">Consommation</th>
-                <th class="border-r-2 border-b-2">Kilométrage (km)</th>
-                <th class="border-r-2 border-b-2">Mise à jour</th>
-                <th class="border-b-2">actions</th>
-            </tr>
-        </thead>
-        <tbody align="center" id="voiture_index_body">
-            {% include "voiture/_index_body.html.twig" %}
-        </tbody>
-    </table>
+    {# Results Table #}
+    <div class="card overflow-hidden p-0">
+        <div class="overflow-x-auto">
+            <table class="table-modern" id="voiture_index">
+                <thead>
+                    <tr>
+                        <th>Nom</th>
+                        <th>Prix</th>
+                        <th>Énergie</th>
+                        <th>Marque</th>
+                        <th>État</th>
+                        <th>Année</th>
+                        <th>Consommation</th>
+                        <th>Kilométrage</th>
+                        <th>Mise à jour</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="voiture_index_body">
+                    {% include "voiture/_index_body.html.twig" %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 {% endblock %}

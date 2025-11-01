@@ -27,3 +27,7 @@ phpstan.neon
 ###< phpstan/phpstan ###
 
 docker/volumes/
+
+# Snyk Security Extension - AI Rules (auto-generated)
+.cursor
+.continue

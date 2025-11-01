@@ -1,65 +1,79 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Création d'un compte{% endblock %}
+{% block title %}Créer un compte{% endblock %}
 
 {% block body %}
-    <div class="register">
-        {{ form_start(registrationForm) }}
-            <fieldset class="border border-gray-500 dark:border-slate-500">
-                <legend class="px-3 text-gray-500 dark:text-slate-400">Nouveau compte</legend>
-                
-                <div class="relative z-0 mb-6 w-full group">
-                    {{ form_widget(registrationForm.email, 
-                        {'attr': 
-                            {
-                                'class': 
-                                    'block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer',
-                                'placeholder': ' '
+    <div class="page-container max-w-md mx-auto">
+        <div class="card">
+            <div class="mb-6">
+                <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+                    <i class="fas fa-user-plus text-primary-600 dark:text-primary-400"></i>
+                    Créer un compte
+                </h1>
+                <p class="text-gray-600 dark:text-gray-400">
+                    Rejoignez-nous pour comparer des voitures
+                </p>
+            </div>
+
+            {{ form_start(registrationForm) }}
+                <div class="mb-4">
+                    {{ form_label(registrationForm.email, 'Adresse email', {
+                        'label_attr': {'class': 'form-label'}
+                    }) }}
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i class="fas fa-envelope text-gray-400"></i>
+                        </div>
+                        {{ form_widget(registrationForm.email, {
+                            'attr': {
+                                'class': 'form-input pl-10',
+                                'placeholder': 'votre@email.com',
+                                'autocomplete': 'email',
+                                'aria-label': 'Adresse email'
                             }
-                        }
-                        ) 
-                    }}
-                    {{ form_label(registrationForm.email, '', 
-                        {'label_attr': 
-                            {'class': 
-                                'peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6' 
-                            }
-                        }
-                        ) 
-                    }}
+                        }) }}
+                    </div>
+                    {{ form_errors(registrationForm.email) }}
                 </div>
 
-                <div class="relative z-0 mb-6 w-full group">
-                    {{ form_widget(registrationForm.plainPassword, 
-                        {'attr': 
-                            {
-                                'class': 
-                                    'block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer',
-                                'placeholder': ' '
+                <div class="mb-6">
+                    {{ form_label(registrationForm.plainPassword, 'Mot de passe', {
+                        'label_attr': {'class': 'form-label'}
+                    }) }}
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i class="fas fa-lock text-gray-400"></i>
+                        </div>
+                        {{ form_widget(registrationForm.plainPassword, {
+                            'attr': {
+                                'class': 'form-input pl-10',
+                                'placeholder': '••••••••',
+                                'autocomplete': 'new-password',
+                                'aria-label': 'Mot de passe'
                             }
-                        }
-                        ) 
-                    }}
-                    {{ form_label(registrationForm.plainPassword, '', 
-                        {'label_attr': 
-                            {'class': 
-                                'peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6' 
-                            }
-                        }
-                        ) 
-                    }}
+                        }) }}
+                    </div>
+                    <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                        <i class="fas fa-info-circle"></i>
+                        Le mot de passe doit contenir au moins 8 caractères
+                    </p>
+                    {{ form_errors(registrationForm.plainPassword) }}
                 </div>
 
-                <div class="mt-2 text-center">
-                    <button type="submit" class="
-                    bg-blue-500 
-                    text-white 
-                    p-1 px-2 rounded-md 
-                    border-2 border-blue-500 
-                    hover:bg-white hover:text-blue-500
-                    ">S'enregistrer</button>
+                <div class="flex flex-col gap-3">
+                    <button type="submit" class="btn btn-accent w-full">
+                        <i class="fas fa-user-plus mr-2"></i>
+                        Créer mon compte
+                    </button>
+
+                    <div class="text-center text-sm text-gray-600 dark:text-gray-400">
+                        Vous avez déjà un compte ?
+                        <a href="{{ path('login') }}" class="text-primary-600 dark:text-primary-400 hover:underline font-medium">
+                            Se connecter
+                        </a>
+                    </div>
                 </div>
-            </fieldset>
-        {{ form_end(registrationForm) }}
+            {{ form_end(registrationForm) }}
+        </div>
     </div>
 {% endblock %}

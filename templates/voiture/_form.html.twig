@@ -1,23 +1,39 @@
-{{ form_start(form, { 'attr' : { 'class' : 'my-4' } }) }}
-    <div>{{ form_widget(form.nom) }}</div>
-
-    <div>{{ form_widget(form.marque) }}</div>
-
-    <div>{{ form_widget(form.energie) }}</div>
-
-    <div>{{ form_widget(form.etat) }}</div>
-
-    <div class="occasion {% if not voiture.annee and not voiture.kilometrage %}hidden{% endif %}">
-        <div>{{ form_widget(form.annee) }}</div>
-
-        <div>{{ form_widget(form.kilometrage) }}</div>
+{{ form_start(form, { 'attr' : { 'class' : 'my-4 max-w-lg mx-auto card' } }) }}
+    <div class="mb-4">
+        {{ form_label(form.nom, null, {'label_attr': {'class': 'form-label'}}) }}
+        {{ form_widget(form.nom, {'attr': {'class': 'form-input'}}) }}
     </div>
-
-    <div>{{ form_widget(form.prix) }}</div>
-
-    <div>{{ form_widget(form.consommation) }}</div>
-
+    <div class="mb-4">
+        {{ form_label(form.marque, null, {'label_attr': {'class': 'form-label'}}) }}
+        {{ form_widget(form.marque, {'attr': {'class': 'form-select'}}) }}
+    </div>
+    <div class="mb-4">
+        {{ form_label(form.energie, null, {'label_attr': {'class': 'form-label'}}) }}
+        {{ form_widget(form.energie, {'attr': {'class': 'form-select'}}) }}
+    </div>
+    <div class="mb-4">
+        {{ form_label(form.etat, null, {'label_attr': {'class': 'form-label'}}) }}
+        {{ form_widget(form.etat, {'attr': {'class': 'form-input'}}) }}
+    </div>
+    <div class="grid grid-cols-2 gap-4 mb-4">
+        <div>
+            {{ form_label(form.annee, null, {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(form.annee, {'attr': {'class': 'form-input'}}) }}
+        </div>
+        <div>
+            {{ form_label(form.kilometrage, null, {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(form.kilometrage, {'attr': {'class': 'form-input'}}) }}
+        </div>
+    </div>
+    <div class="mb-4">
+        {{ form_label(form.prix, null, {'label_attr': {'class': 'form-label'}}) }}
+        {{ form_widget(form.prix, {'attr': {'class': 'form-input'}}) }}
+    </div>
+    <div class="mb-4">
+        {{ form_label(form.consommation, null, {'label_attr': {'class': 'form-label'}}) }}
+        {{ form_widget(form.consommation, {'attr': {'class': 'form-input'}}) }}
+    </div>
     <div class="text-center my-3">
-        <button class="btn px-3 py-2 bg-lime-500 border border-lime-500 border-2 rounded-md hover:bg-white hover:text-lime-500">{{ button_label|default('Créer') }}</button>
+        <button class="btn btn-accent">{{ button_label|default('Créer') }}</button>
     </div>
 {{ form_end(form) }}
