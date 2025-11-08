@@ -1,5 +1,7 @@
 # Comparator - Outil de Comparaison Multi-Produits
 
+![Comparator Screenshot](public/screenshot.png)
+
 Une application web moderne construite avec Symfony 7.3 et Tailwind CSS 3.4 pour comparer différents types de produits (voitures, téléphones, électroménager).
 
 ![Symfony](https://img.shields.io/badge/Symfony-7.3-000000?style=flat&logo=symfony)
