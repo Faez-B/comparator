@@ -3,44 +3,80 @@
 namespace App\Test\Controller;
 
 use App\Entity\Marque;
-use App\Repository\UserRepository;
+use App\Entity\User;
 use App\Repository\MarqueRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class MarqueControllerTest extends WebTestCase
 {
     private KernelBrowser $client;
     private MarqueRepository $repository;
+    private EntityManagerInterface $entityManager;
     private string $path = '/marque/';
 
     protected function setUp(): void
     {
         $this->client = static::createClient();
-        $this->repository = (static::getContainer()->get('doctrine'))->getRepository(Marque::class);
+        $container = static::getContainer();
 
+        $doctrine = $container->get('doctrine');
+        $this->entityManager = $doctrine->getManager();
+
+        /** @var MarqueRepository $marqueRepository */
+        $marqueRepository = $doctrine->getRepository(Marque::class);
+        $this->repository = $marqueRepository;
+
+        // Nettoyer la base de données avant chaque test
         foreach ($this->repository->findAll() as $object) {
-            $this->repository->remove($object, true);
+            $this->entityManager->remove($object);
         }
 
-        $userRepository = static::getContainer()->get(UserRepository::class);
+        // Nettoyer aussi les utilisateurs
+        $userRepository = $doctrine->getRepository(User::class);
+        foreach ($userRepository->findAll() as $object) {
+            $this->entityManager->remove($object);
+        }
+        $this->entityManager->flush();
 
-        // retrieve the test user
-        $testUser = $userRepository->findOneByEmail('test@test.com');
+        // Créer un utilisateur de test
+        $passwordHasher = $container->get(UserPasswordHasherInterface::class);
+        $testUser = new User();
+        $testUser->setEmail('test@test.com');
+        $testUser->setRoles(['ROLE_USER']);
+        $testUser->setPassword($passwordHasher->hashPassword($testUser, 'test123'));
 
-        // simulate $testUser being logged in
+        $this->entityManager->persist($testUser);
+        $this->entityManager->flush();
+
+        // Simuler la connexion de l'utilisateur de test
         $this->client->loginUser($testUser);
     }
 
     public function testIndex(): void
     {
-        $crawler = $this->client->request('GET', $this->path);
+        // Créer quelques marques de test
+        $renault = new Marque();
+        $renault->setNom('Renault');
+        $this->entityManager->persist($renault);
+
+        $peugeot = new Marque();
+        $peugeot->setNom('Peugeot');
+        $this->entityManager->persist($peugeot);
+
+        $this->entityManager->flush();
+
+        $this->client->request('GET', $this->path);
 
         self::assertResponseStatusCodeSame(200);
-        self::assertPageTitleContains('Marque index');
+        self::assertPageTitleContains('Marque');
 
-        // Use the $crawler to perform additional assertions e.g.
-        // self::assertSame('Some text on the page', $crawler->filter('.p')->first());
+        // Vérifier que les marques sont affichées
+        $content = $this->client->getResponse()->getContent();
+        self::assertStringContainsString('Renault', $content);
+        self::assertStringContainsString('Peugeot', $content);
     }
 
     public function testNew(): void
@@ -51,59 +87,72 @@ class MarqueControllerTest extends WebTestCase
 
         self::assertResponseStatusCodeSame(200);
 
-        $this->client->submitForm('Save', [
-            'marque[nom]' => 'Testing',
+        $this->client->submitForm('Créer', [
+            'marque[nom]' => 'Tesla',
         ]);
 
         self::assertResponseRedirects('/marque/');
 
         self::assertSame($originalNumObjectsInRepository + 1, count($this->repository->findAll()));
+
+        // Vérifier que la marque a été créée avec le bon nom
+        $marque = $this->repository->findOneBy(['nom' => 'Tesla']);
+        self::assertNotNull($marque);
+        self::assertSame('Tesla', $marque->getNom());
     }
 
     public function testShow(): void
     {
         $fixture = new Marque();
-        $fixture->setNom('My Title');
+        $fixture->setNom('BMW');
 
-        $this->repository->add($fixture, true);
+        $this->entityManager->persist($fixture);
+        $this->entityManager->flush();
 
         $this->client->request('GET', sprintf('%s%s', $this->path, $fixture->getId()));
 
         self::assertResponseStatusCodeSame(200);
         self::assertPageTitleContains('Marque');
 
-        // Use assertions to check that the properties are properly displayed.
+        // Vérifier que le nom de la marque est affiché
+        $content = $this->client->getResponse()->getContent();
+        self::assertStringContainsString('BMW', $content);
     }
 
     public function testEdit(): void
     {
         $fixture = new Marque();
-        $fixture->setNom('My Title');
+        $fixture->setNom('Audi');
 
-        $this->repository->add($fixture, true);
+        $this->entityManager->persist($fixture);
+        $this->entityManager->flush();
 
         $this->client->request('GET', sprintf('%s%s/edit', $this->path, $fixture->getId()));
 
-        $this->client->submitForm('Update', [
-            'marque[nom]' => 'Something New',
+        self::assertResponseStatusCodeSame(200);
+
+        $this->client->submitForm('Mettre à jour', [
+            'marque[nom]' => 'Audi Updated',
         ]);
 
         self::assertResponseRedirects('/marque/');
 
-        $fixture = $this->repository->findAll();
+        // Recharger la marque depuis la base de données
+        $updatedMarque = $this->repository->find($fixture->getId());
 
-        self::assertSame('Something New', $fixture[0]->getNom());
+        self::assertNotNull($updatedMarque);
+        self::assertSame('Audi Updated', $updatedMarque->getNom());
     }
 
     public function testRemove(): void
     {
-
         $originalNumObjectsInRepository = count($this->repository->findAll());
 
         $fixture = new Marque();
-        $fixture->setNom('My Title');
+        $fixture->setNom('Volkswagen');
 
-        $this->repository->add($fixture, true);
+        $this->entityManager->persist($fixture);
+        $this->entityManager->flush();
 
         self::assertSame($originalNumObjectsInRepository + 1, count($this->repository->findAll()));
 
